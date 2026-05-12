@@ -1,6 +1,6 @@
 {
   "framework": "vue",
-  "installCommand": "npm --prefix FRONTEND ci",
+  "installCommand": "npm --prefix FRONTEND install",
   "buildCommand": "npm --prefix FRONTEND run build",
   "outputDirectory": "FRONTEND/dist",
   "rewrites": [

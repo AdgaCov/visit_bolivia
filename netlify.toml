@@ -1,0 +1,8 @@
+[build]
+  command = "npm --prefix FRONTEND ci && npm --prefix FRONTEND run build"
+  publish = "FRONTEND/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
