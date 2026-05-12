@@ -1,0 +1,12 @@
+{
+  "name": "visit-bolivia",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix FRONTEND run build",
+    "install:frontend": "npm --prefix FRONTEND ci"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
