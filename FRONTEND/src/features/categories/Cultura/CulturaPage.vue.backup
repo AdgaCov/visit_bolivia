@@ -1,0 +1,5352 @@
+<template>
+  <div class="cultura-page">
+    <!-- Hero Section - Estilo Estonia -->
+    <section class="cultura-hero-section">
+      <div class="hero-background">
+        <img 
+          src="https://unifranz.edu.bo/wp-content/uploads/2023/02/IMG_20220507_141504-ph.-Sole-Patty-1.jpg" 
+          alt="Cultura Boliviana - Tradiciones y Folklore" 
+          class="hero-background-image"
+        >
+        <div class="photo-credit">
+          <span>Foto: Tradiciones bolivianas, Visit Bolivia</span>
+        </div>
+      </div>
+      
+      <!-- Overlay de texto con estilo Estonia -->
+      <div class="hero-text-overlay">
+        <div class="text-container">
+          <h1 class="hero-main-title">Una guía rápida a la cultura boliviana</h1>
+          <p class="hero-description">
+            Bolivia es un país geográficamente compacto, pero el orgullo que los bolivianos tienen por su cultura desborda como los ríos durante las inundaciones de la quinta estación.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Icono inferior izquierdo -->
+      <div class="hero-icon">
+        BT
+      </div>
+    </section>
+
+    <!-- Información Cultural -->
+    <section class="cultural-info-section">
+      <div class="container">
+        <div class="cultural-content">
+          --section-accent
+          <!-- Información del autor -->
+          <!-- <div class="author-info">
+            <div class="author-line"></div>
+            <h4 class="author-name">María González</h4>
+            <p class="author-description">Escritora y editora de contenido turístico para Bolivia Turismo</p>
+            <div class="author-line"></div>
+          </div>
+          -->
+          <!-- Título principal -->
+          <h2 class="cultural-title">Bolivia es una nación construida por siglos de cambio e influencia externa.</h2>
+          
+          <!-- Contenido descriptivo -->
+          <div class="cultural-text">
+            <p>Desde las civilizaciones precolombinas hasta la colonización española, la <a href="#" class="text-link">historia boliviana</a> ha sido moldeada por múltiples culturas y tradiciones. Esta rica herencia se refleja en cada aspecto de la vida cotidiana.</p>
+            
+            <p>La cultura boliviana se sostiene sobre cinco pilares fundamentales: la <strong>música folklórica</strong> que resuena en cada fiesta, las <strong>tradiciones ancestrales</strong> que conectan con la tierra, la <strong>naturaleza diversa</strong> que inspira el arte, la <strong>gastronomía única</strong> que fusiona sabores andinos y amazónicos, y la <strong>innovación cultural</strong> que mantiene vivas las tradiciones en el mundo moderno.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Culturas Regionales Section -->
+    <section class="cultural-regions-section">
+      <div class="regions-header">
+        <h2 class="regions-title">Descubre culturas regionales únicas</h2>
+        <p class="regions-description">
+          A pesar del tamaño compacto de Bolivia, existen varias regiones donde diferentes idiomas, costumbres y tradiciones se han transmitido a través de generaciones.
+        </p>
+      </div>
+      
+      <div class="regions-carousel-container">
+        <div class="regions-carousel" ref="regionsCarousel">
+          <div class="region-card" v-for="(region, index) in culturalRegions" :key="index">
+            <div class="region-image">
+              <img :src="region.image" :alt="region.name" loading="lazy">
+            </div>
+            <div class="region-info">
+              <h3 class="region-name">{{ region.name }}</h3>
+              <p class="region-description">{{ region.description }}</p>
+              <div class="region-label">{{ region.label }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Controles de navegación mejorados -->
+        <div class="carousel-controls">
+          <div class="progress-indicator">
+            <div class="progress-bar">
+              <div class="progress-fill" :style="{ width: progressWidth }"></div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button class="nav-btn prev-btn" @click="scrollLeft" :disabled="currentIndex === 0" aria-label="Anterior">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-btn next-btn" @click="scrollRight" :disabled="currentIndex >= maxIndex" aria-label="Siguiente">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros de Subcategorías -->
+  <!--  <section class="filters-section">
+      <div class="container">
+        <div class="filters-container">
+          <h3 class="filters-title">Explora por tipo</h3>
+          <div class="filters-grid">
+            <button 
+              v-for="filter in subcategories" 
+              :key="filter.id"
+              class="filter-pill"
+              :class="{ active: activeFilter === filter.id }"
+              @click="setActiveFilter(filter.id)"
+            >
+              <i :class="filter.icon"></i>
+              <span>{{ filter.name }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+-->
+    <!-- Historia de Bolivia -->
+    <section class="history-section">
+      <div class="history-background">
+        <img src="https://content-historia.nationalgeographic.com.es/medio/2021/10/14/el-templo-kalasasaya-en-la-ciudad-preincaica-de-tiwanaku_19dcfaff_1200x630.jpg" alt="Historia de Bolivia" class="history-image">
+        <div class="history-overlay"></div>
+      </div>
+      
+      <!-- Caja de contenido superpuesta -->
+      <div class="history-content-box">
+        <h2 class="history-title">Una breve historia de Bolivia</h2>
+        <p class="history-description">La historia boliviana abarca una línea de tiempo larga y compleja, desde la era precolombina hasta la era digital, y está entrelazada con las historias de muchas naciones.</p>
+        <button class="history-cta-btn">LEER MÁS</button>
+      </div>
+      
+      <!-- Información del autor de la foto -->
+      <div class="photo-credit">
+        <p class="photo-author">Foto: Carlos Mendoza</p>
+        <div class="photo-logo">
+          <span class="logo-text">BT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lugares Destacados -->
+    <!-- <section class="featured-places">
+      <div class="container">
+        <h2 class="section-title">Lugares Destacados</h2>
+        <div class="places-grid">
+          <div 
+            v-for="place in filteredPlaces" 
+            :key="place.id"
+            class="place-card"
+            @click="navigateToPlace(place)"
+          >
+            <div class="place-image">
+              <img :src="place.image" :alt="place.name" />
+              <div class="place-badge" :style="{ backgroundColor: place.badgeColor }">
+                {{ place.category }}
+              </div>
+            </div>
+            <div class="place-content">
+              <h3 class="place-name">{{ place.name }}</h3>
+              <p class="place-description">{{ place.description }}</p>
+              <div class="place-meta">
+                <div class="place-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>{{ place.location }}</span>
+                </div>
+                <div class="place-rating">
+                  <i class="fas fa-star"></i>
+                  <span>{{ place.rating }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Festival Cultural -->
+    <!-- <section class="festival-section">
+      <div class="festival-background">
+        <img src="https://www.minculturas.gob.bo/wp-content/uploads/2024/04/437360721_970308281215430_3201650584629657206_n.jpg" alt="Festival Cultural Boliviano" class="festival-image">
+        <div class="festival-overlay"></div>
+      </div> -->
+      
+      <!-- Contenido del festival -->
+      <!-- <div class="festival-content">
+        <div class="container">
+          <div class="festival-text-content">
+            <h2 class="festival-title">Vive la música y tradición boliviana</h2>
+            <p class="festival-description">Sumérgete en la vibrante cultura boliviana a través de festivales de música folklórica, danzas tradicionales y celebraciones que conectan el pasado con el presente.</p>
+            
+            <div class="festival-features">
+              <div class="feature-item">
+                <i class="fas fa-music"></i>
+                <span>Música folklórica en vivo</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-users"></i>
+                <span>Danzas tradicionales</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Festivales todo el año</span>
+              </div>
+            </div>
+            
+            <div class="festival-actions">
+              <button class="festival-btn primary">Explorar Festivales</button>
+              <button class="festival-btn secondary">Ver Calendario</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    <!-- </section> -->
+
+    <!-- Experiencias Culturales -->
+    <!-- <section class="experiences-section">
+      <div class="container">
+        <h2 class="section-title">Experiencias Culturales</h2>
+        <div class="experiences-grid">
+          <div 
+            v-for="experience in culturalExperiences" 
+            :key="experience.id"
+            class="experience-card"
+          >
+            <div class="experience-image">
+              <img :src="experience.image" :alt="experience.title" />
+            </div>
+            <div class="experience-content">
+              <h3 class="experience-title">{{ experience.title }}</h3>
+              <p class="experience-description">{{ experience.description }}</p>
+              <div class="experience-meta">
+                <span class="experience-duration">
+                  <i class="fas fa-clock"></i>
+                  {{ experience.duration }}
+                </span>
+                <span class="experience-price">
+                  <i class="fas fa-tag"></i>
+                  {{ experience.price }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Eventos Culturales -->
+    <!-- <section class="events-section">
+      <div class="container">
+        <h2 class="section-title">Próximos Eventos Culturales</h2>
+        <div class="events-grid">
+          <div 
+            v-for="event in culturalEvents" 
+            :key="event.id"
+            class="event-card"
+          >
+            <div class="event-image">
+              <img :src="event.image" :alt="event.title" />
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">{{ event.title }}</h3>
+              <p class="event-description">{{ event.description }}</p>
+              <div class="event-meta">
+                <span class="event-date">
+                  <i class="fas fa-calendar"></i>
+                  {{ event.date }}
+                </span>
+                <span class="event-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  {{ event.location }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Música Section - Estilo Estonia Pro -->
+    <section class="music-section">
+      <div class="music-container">
+        <!-- Imagen principal -->
+        <div class="music-image-container">
+          <img 
+            src="https://static.wixstatic.com/media/1bf1e5_eb2e0b7524e5440abf052b2ac128bcd6~mv2.png/v1/fill/w_1000,h_438,al_c,q_90,usm_0.66_1.00_0.01/1bf1e5_eb2e0b7524e5440abf052b2ac128bcd6~mv2.png" 
+            alt="Música folklórica boliviana" 
+            class="music-image"
+          />
+          <div class="image-attribution">
+            <p class="photo-author">Foto: Carlos Mendoza</p>
+            <div class="photo-logo">
+              <span class="logo-text">BT</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contenido de texto -->
+        <div class="music-content">
+          <h2 class="music-title">Música</h2>
+          <h3 class="music-subtitle">El latido del corazón de una nación</h3>
+          
+          <div class="music-text">
+            <p class="music-paragraph">
+              Las <strong>Celebraciones de la Canción</strong> del siglo XIX fueron fundamentales para establecer la identidad nacional boliviana. Durante la <strong>Revolución de la Canción</strong> de los años 80, las masas se reunieron en los campos de festivales de música para exigir la independencia nacional.
+            </p>
+            <p class="music-paragraph">
+              Sin música, la cultura boliviana tal como la conocemos no existiría.
+            </p>
+            <p class="music-paragraph">
+              Bolivia cuenta con un extenso repertorio de canciones folklóricas, describiendo su belleza poética y atemporal, a menudo acompañadas de danzas. El <strong>Festival de Música y Danza</strong> declarado por la UNESCO, se celebra cada cuatro años, atrayendo a casi 100,000 artistas y asistentes.
+            </p>
+            <p class="music-paragraph">
+              Te sugerimos visitar el <strong>Museo del Festival de Música de Sucre</strong> si no puedes asistir al festival en Bolivia.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Botones de acción circulares -->
+        <!-- <div class="music-actions">
+          <button class="action-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="action-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="action-btn scroll-btn" aria-label="Ir arriba" @click="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- Culturas Regionales Section - Estilo Estonia Pro -->
+    <section class="regional-cultures-section">
+      <div class="cultures-container">
+        <!-- Header -->
+        <div class="cultures-header">
+          <h2 class="cultures-title">Descubre culturas regionales únicas</h2>
+          <p class="cultures-description">
+            A pesar del tamaño compacto de Bolivia, existen varias regiones donde diferentes idiomas, costumbres y tradiciones se han transmitido a través de generaciones.
+          </p>
+        </div>
+        
+        <!-- Carrusel de Culturas -->
+        <div class="cultures-carousel-wrapper">
+          <div class="cultures-carousel" ref="culturesCarousel">
+            <div 
+              v-for="(culture, index) in regionalCultures" 
+              :key="index"
+              class="culture-card"
+            >
+              <div class="culture-image">
+                <img :src="culture.image" :alt="culture.name" loading="lazy" />
+              </div>
+              <div class="culture-info">
+                <h3 class="culture-name">{{ culture.name }}</h3>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Indicador de progreso -->
+          <div class="carousel-progress">
+            <div class="progress-line">
+              <div class="progress-fill" :style="{ width: progressPercentage }"></div>
+            </div>
+          </div>
+          
+          <!-- Botones de navegación -->
+          <div class="carousel-navigation">
+            <button 
+              class="nav-arrow prev-arrow" 
+              @click="scrollCarouselLeft" 
+              :disabled="currentCultureIndex === 0"
+              aria-label="Anterior"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button 
+              class="nav-arrow next-arrow" 
+              @click="scrollCarouselRight" 
+              :disabled="currentCultureIndex >= maxCultureIndex"
+              aria-label="Siguiente"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Botones de acción flotantes -->
+        <!--<div class="floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn settings-btn" aria-label="Configuración">
+            <i class="fas fa-cog"></i>
+          </button>
+          <button class="floating-btn scroll-btn" aria-label="Ir arriba" @click="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- Gastronomía Section - Estilo Estonia Pro -->
+    <section class="food-section">
+      <div class="food-container">
+        <!-- Contenido de texto -->
+        <div class="food-content">
+          <h2 class="food-title">Gastronomía</h2>
+          <h3 class="food-subtitle">Casas señoriales y microcervecerías están a momentos de distancia.</h3>
+          
+          <div class="food-text">
+            <p class="food-paragraph">
+              La comida tradicional boliviana está conectada con las cuatro estaciones. En julio abundan las fresas, y los ingredientes frescos y locales son siempre preferidos. La recolección es un evento familiar, con hongos y bayas de los pantanos encontrando su camino en muchos platos.
+            </p>
+            <p class="food-paragraph">
+              La comida boliviana es sencilla, sin lujos y honesta. Los jóvenes chefs utilizan ingredientes locales como jabalí, ruibarbo y rebozuelos para crear la Nueva Cocina Andina. Bolivia fue el primer país andino en ser incluido en la Guía MICHELIN en 2022.
+            </p>
+          </div>
+          
+          <button class="food-cta-btn" @click="viewFoodGuide">
+            AQUÍ ESTÁ QUÉ COMER EN BOLIVIA
+          </button>
+          
+          <!-- Logo -->
+          <div class="food-logo">
+            <span class="logo-text">BT</span>
+          </div>
+        </div>
+        
+        <!-- Imagen principal -->
+        <div class="food-image-container">
+          <img 
+            src="https://www.opinion.com.bo/media/opinion/images/2019/09/15/2019091518423725913.jpg" 
+            alt="Niños recolectando bayas en Bolivia" 
+            class="food-image"
+          />
+          <div class="food-attribution">
+            <p class="photo-author">Foto: L allik</p>
+          </div>
+        </div>
+        
+        <!-- Botones de acción flotantes -->
+        <!--<div class="food-floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="floating-btn scroll-btn" aria-label="Ir arriba" @click="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- Artículos Recomendados Section - Estilo Estonia Pro -->
+    <section class="recommended-articles-section">
+      <div class="articles-container">
+        <!-- Header -->
+        <div class="articles-header">
+          <h2 class="articles-title">Artículos recomendados</h2>
+        </div>
+        
+        <!-- Carrusel de artículos -->
+        <div class="articles-carousel-wrapper">
+          <div class="articles-carousel" ref="articlesCarousel">
+            <div 
+              v-for="(article, index) in recommendedArticles" 
+              :key="index"
+              class="article-card"
+            >
+              <div class="article-image">
+                <img :src="article.image" :alt="article.title" loading="lazy" />
+              </div>
+              <div class="article-content">
+                <h3 class="article-title">{{ article.title }}</h3>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Indicador de progreso -->
+          <div class="articles-progress">
+            <div class="progress-line">
+              <div class="progress-fill" :style="{ width: articlesProgressWidth }"></div>
+            </div>
+          </div>
+          
+          <!-- Botones de navegación -->
+          <div class="articles-navigation">
+            <button 
+              class="nav-arrow prev-arrow" 
+              @click="scrollArticlesLeft" 
+              :disabled="currentArticleIndex === 0"
+              aria-label="Anterior"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button 
+              class="nav-arrow next-arrow" 
+              @click="scrollArticlesRight" 
+              :disabled="currentArticleIndex >= maxArticleIndex"
+              aria-label="Siguiente"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Botones de acción flotantes -->
+        <!--<div class="articles-floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- Descubrimientos Section - Estilo Estonia Pro -->
+    <section class="discoveries-section">
+      <div class="discoveries-container">
+        <!-- Header -->
+        <div class="discoveries-header">
+          <h2 class="discoveries-title">Descubre algo inesperado</h2>
+          <p class="discoveries-subtitle">¡Experimenta la cultura boliviana por ti mismo!</p>
+        </div>
+        
+        <!-- Carrusel de descubrimientos -->
+        <div class="discoveries-carousel-wrapper">
+          <div class="discoveries-carousel" ref="discoveriesCarousel">
+            <div 
+              v-for="(discovery, index) in discoveries" 
+              :key="index"
+              class="discovery-card"
+            >
+              <div class="discovery-image">
+                <img :src="discovery.image" :alt="discovery.title" loading="lazy" />
+              </div>
+              <div class="discovery-content">
+                <h3 class="discovery-title">{{ discovery.title }}</h3>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Indicador de progreso -->
+          <div class="discoveries-progress">
+            <div class="progress-line">
+              <div class="progress-fill" :style="{ width: discoveriesProgressWidth }"></div>
+            </div>
+          </div>
+          
+          <!-- Botones de navegación -->
+          <div class="discoveries-navigation">
+            <button 
+              class="nav-arrow prev-arrow" 
+              @click="scrollDiscoveriesLeft" 
+              :disabled="currentDiscoveryIndex === 0"
+              aria-label="Anterior"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button 
+              class="nav-arrow next-arrow" 
+              @click="scrollDiscoveriesRight" 
+              :disabled="currentDiscoveryIndex >= maxDiscoveryIndex"
+              aria-label="Siguiente"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Botones de acción flotantes -->
+        <!--<div class="discoveries-floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- Museos Section - Estilo Estonia Pro -->
+    <!-- <section class="museums-section">
+      <div class="museums-container"> -->
+        <!-- Imagen principal con overlay -->
+        <!-- <div class="museums-image-container">
+          <img 
+            src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=800&fit=crop&crop=center" 
+            alt="Museo de juguetes en Bolivia" 
+            class="museums-image"
+          /> -->
+          
+          <!-- Overlay de contenido -->
+          <!-- <div class="museums-overlay">
+            <div class="museums-content">
+              <h2 class="museums-title">Museos</h2>
+              <p class="museums-description">
+                El año pasado, hubo más visitas a museos que residentes bolivianos! ¿Has estado en un museo en Bolivia? Si no, ¡es hora de que lo hagas!
+              </p>
+              <button class="museums-cta-btn" @click="readMoreMuseums">
+                LEER MÁS
+              </button> -->
+              
+              <!-- Navegación -->
+              <!-- <div class="museums-navigation">
+                <div class="nav-line"></div>
+                <button class="nav-arrow prev" aria-label="Anterior">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-arrow next" aria-label="Siguiente">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div> -->
+          
+          <!-- Atribución de la foto -->
+          <!-- <div class="museums-attribution">
+            <p class="photo-author">Foto: Museo de Juguetes, Visit Bolivia</p>
+          </div>
+        </div> -->
+        
+        <!-- Botones de acción flotantes -->
+        <!-- <div class="museums-floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="floating-btn scroll-btn" aria-label="Ir arriba" @click="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Tesoros UNESCO Section - Estilo Estonia Pro -->
+    <section class="unesco-section">
+      <div class="unesco-container">
+        <!-- Video Player -->
+        <div class="video-container">
+          <div class="video-player">
+            <img 
+              src="https://magritouroperator.com/wp-content/uploads/2024/12/tesoros-culturales-bolivia-magri-tour-operator-03.jpg" 
+              alt="Ciudad histórica de Bolivia" 
+              class="video-thumbnail"
+            />
+            <div class="play-button" @click="playVideo">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="video-attribution">
+              <p class="video-author">Foto: Carlos Mendoza</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contenido de texto -->
+        <div class="unesco-content">
+          <h2 class="unesco-title">Tesoros UNESCO de Bolivia</h2>
+          <h3 class="unesco-subtitle">Canciones ancestrales, saunas de humo, canoas talladas y ciudades creativas...</h3>
+          
+          <div class="unesco-text">
+            <p class="unesco-paragraph">
+              Ya sea que tu interés esté en la historia, arquitectura, artesanías tradicionales o música, hay algo para ti que explorar en Bolivia.
+            </p>
+            <p class="unesco-paragraph">
+              La UNESCO ha nombrado estos aspectos del paisaje y cultura boliviana como merecedores de preservación y reconocimiento internacional.
+            </p>
+          </div>
+          
+          <button class="unesco-cta-btn" @click="viewUnescoSites">
+            VER LA LISTA DE SITIOS UNESCO
+          </button>
+        </div>
+        
+        <!-- Botones de acción flotantes -->
+        <!--<div class="unesco-floating-actions">
+          <button class="floating-btn comment-btn" aria-label="Comentarios">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="floating-btn share-btn" aria-label="Compartir">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="floating-btn scroll-btn" aria-label="Ir arriba" @click="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+        </div>-->
+        
+        <!-- Logo -->
+        <div class="unesco-logo">
+          <span class="logo-text">BT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+   <!--  <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">¿Listo para explorar la cultura boliviana?</h2>
+          <p class="cta-subtitle">Descubre tradiciones milenarias, arte colonial y festividades únicas</p>
+          <div class="cta-actions">
+            <router-link to="/planificacion" class="btn btn-primary">Planificar viaje</router-link>
+            <router-link to="/mapa" class="btn btn-secondary">Ver en mapa</router-link>
+          </div>
+        </div>
+      </div>
+    </section>-->
+    
+
+    <ScrollToTop />
+  </div>
+</template>
+
+<script>
+import ScrollToTop from '@/components/ScrollToTop.vue'
+
+export default {
+  name: 'CulturaPage',
+  components: {
+    ScrollToTop
+  },
+  data() {
+    return {
+      activeFilter: 'all',
+      subcategories: [
+        { id: 'all', name: 'Todos', icon: 'fas fa-th' },
+        { id: 'arqueologia', name: 'Arqueología', icon: 'fas fa-monument' },
+        { id: 'museos', name: 'Museos', icon: 'fas fa-university' },
+        { id: 'iglesias', name: 'Iglesias', icon: 'fas fa-church' },
+        { id: 'festivales', name: 'Festivales', icon: 'fas fa-music' },
+        { id: 'artesania', name: 'Artesanía', icon: 'fas fa-palette' }
+      ],
+      // Datos para el carrusel de culturas regionales
+      culturalRegions: [
+        {
+          name: 'Altiplano Andinos',
+          description: 'Tradiciones ancestrales y música folklórica',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Altiplano_de_La_Paz_Bolivia.jpg/330px-Altiplano_de_La_Paz_Bolivia.jpg',
+          label: 'Altiplano Andinos'
+        },
+        {
+          name: 'Valle Central',
+          description: 'Cultura mestiza y gastronomía única',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/6/62/Valle_de_las_%C3%A1nimas_La_Paz_Bolivia_%283%29.jpg',
+          label: 'Valle Central'
+        },
+        {
+          name: 'Amazonía Boliviana',
+          description: 'Rituales ancestrales y biodiversidad cultural',
+          image: "https://wp-content.miviaje.com/2019/03/amazonia-boliviana.jpg",
+          label: 'Amazonía Boliviana'
+        },
+        {
+          name: 'Chaco Boliviano',
+          description: 'Tradiciones ganaderas y música chaqueña',
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Rio_Orthon%2C_Pando%2C_Bolivia.jpg/1200px-Rio_Orthon%2C_Pando%2C_Bolivia.jpg",
+          label: 'Chaco Boliviano'
+        },
+        {
+          name: 'Oriente Boliviano',
+          description: 'Cultura cruceña y carnaval de Santa Cruz',
+          image: "https://www.opinion.com.bo/asset/thumbnail,992,558,center,center/media/opinion/images/2023/10/19/2023101915363529824.jpg",
+          label: 'Oriente Boliviano'
+        }
+      ],
+      // Variables para el carrusel
+      currentIndex: 0,
+      cardWidth: 300,
+      gap: 24,
+      visibleCards: 4,
+      // Variables para scroll con mouse
+      isDragging: false,
+      startX: 0,
+      scrollPosition: 0,
+      velocity: 0,
+      lastX: 0,
+      lastTime: 0,
+      
+      // Variables para drag del carrusel de culturas
+      isCulturesDragging: false,
+      culturesStartX: 0,
+      culturesScrollPosition: 0,
+      culturesVelocity: 0,
+      culturesLastX: 0,
+      culturesLastTime: 0,
+      
+      // Variables para drag del carrusel de artículos
+      isArticlesDragging: false,
+      articlesStartX: 0,
+      articlesScrollPosition: 0,
+      articlesVelocity: 0,
+      articlesLastX: 0,
+      articlesLastTime: 0,
+      
+      // Variables para drag del carrusel de descubrimientos
+      isDiscoveriesDragging: false,
+      discoveriesStartX: 0,
+      discoveriesScrollPosition: 0,
+      discoveriesVelocity: 0,
+      discoveriesLastX: 0,
+      discoveriesLastTime: 0,
+      culturalPlaces: [
+        {
+          id: 1,
+          name: 'Tiwanaku',
+          description: 'Centro espiritual de la cultura Tiwanaku, declarado Patrimonio de la Humanidad por la UNESCO',
+          image: 'https://cdn.kanootours.com/media/catalog/product/w/7/w7_3_1.jpg',
+          location: 'La Paz',
+          rating: 4.8,
+          category: 'Arqueología',
+          badgeColor: 'var(--category-cultura)',
+          subcategory: 'arqueologia'
+        },
+        {
+          id: 2,
+          name: 'Casa de la Libertad',
+          description: 'Lugar donde se firmó el Acta de Independencia de Bolivia en 1825',
+          image: 'https://www.bolivia.com/sdi/2018/07/19/casa-de-la-libertad-sucre-640329.jpg',
+          location: 'Sucre',
+          rating: 4.7,
+          category: 'Historia',
+          badgeColor: 'var(--category-historia)',
+          subcategory: 'museos'
+        },
+        {
+          id: 3,
+          name: 'Iglesia de San Francisco',
+          description: 'Joyas del barroco mestizo en La Paz, con fachada tallada en piedra',
+          image: 'https://www.bolivia.com/sdi/2018/07/19/iglesia-san-francisco-la-paz-640329.jpg',
+          location: 'La Paz',
+          rating: 4.6,
+          category: 'Arquitectura',
+          badgeColor: 'var(--category-cultura)',
+          subcategory: 'iglesias'
+        },
+        {
+          id: 4,
+          name: 'Carnaval de Oruro',
+          description: 'Fiesta folklórica declarada Patrimonio de la Humanidad por la UNESCO',
+          image: 'https://abi.bo/images/historico_1/20201215032b_WZcNGeq_q7n6oDF.jpg',
+          location: 'Oruro',
+          rating: 4.9,
+          category: 'Festival',
+          badgeColor: 'var(--bolivia-red)',
+          subcategory: 'festivales'
+        }
+      ],
+      culturalExperiences: [
+        {
+          id: 1,
+          title: 'Tour Arqueológico Tiwanaku',
+          description: 'Explora las ruinas precolombinas con un guía especializado',
+          image: 'https://www.bolivia.com/sdi/2018/07/19/tiwanaku-tour-640329.jpg',
+          duration: '4 horas',
+          price: 'Desde $25'
+        },
+        {
+          id: 2,
+          title: 'Clase de Danza Folklórica',
+          description: 'Aprende las danzas tradicionales bolivianas',
+          image: 'https://www.bolivia.com/sdi/2018/07/19/danza-folklorica-640329.jpg',
+          duration: '2 horas',
+          price: 'Desde $15'
+        },
+        {
+          id: 3,
+          title: 'Taller de Artesanía Textil',
+          description: 'Crea tu propia pieza de arte textil andino',
+          image: 'https://www.bolivia.com/sdi/2018/07/19/artesania-textil-640329.jpg',
+          duration: '3 horas',
+          price: 'Desde $20'
+        }
+      ],
+      culturalEvents: [
+        {
+          id: 1,
+          title: 'Festival de Música Barroca',
+          date: 'Abril 2025',
+          location: 'Santa Cruz',
+          description: 'Conciertos en misiones jesuíticas con músicos de todo el mundo',
+          image: 'https://wp.es.aleteia.org/wp-content/uploads/sites/7/2018/04/web3-musical-festival-bolivia-music-facebook-festival-de-musica-barroca-misiones-de-chiquitos-bolivia.jpg?resize=620,350&q=75'
+        },
+        {
+          id: 2,
+          title: 'Fiesta del Gran Poder',
+          date: 'Mayo 2025',
+          location: 'La Paz',
+          description: 'Una de las festividades más importantes del altiplano paceño',
+          image: 'https://www.eldiario.net/portal/wp-content/uploads/2025/06/F-7-gran-poder.webp'
+        }
+      ],
+      // Datos para el carrusel de culturas regionales
+      regionalCultures: [
+        {
+          name: 'Altiplano Andinos',
+          description: 'Tradiciones ancestrales y música folklórica',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Altiplano_de_La_Paz_Bolivia.jpg/330px-Altiplano_de_La_Paz_Bolivia.jpg',
+          label: 'Altiplano Andinos'
+        },
+        {
+          name: 'Valle Central',
+          description: 'Cultura mestiza y gastronomía única',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/6/62/Valle_de_las_%C3%A1nimas_La_Paz_Bolivia_%283%29.jpg',
+          label: 'Valle Central'
+        },
+        {
+          name: 'Amazonía Boliviana',
+          description: 'Rituales ancestrales y biodiversidad cultural',
+          image: "https://wp-content.miviaje.com/2019/03/amazonia-boliviana.jpg",
+          label: 'Amazonía Boliviana'
+        },
+        {
+          name: 'Chaco Boliviano',
+          description: 'Tradiciones ganaderas y música chaqueña',
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Rio_Orthon%2C_Pando%2C_Bolivia.jpg/1200px-Rio_Orthon%2C_Pando%2C_Bolivia.jpg",
+          label: 'Chaco Boliviano'
+        },
+        {
+          name: 'Oriente Boliviano',
+          description: 'Cultura cruceña y carnaval de Santa Cruz',
+          image: "https://www.opinion.com.bo/asset/thumbnail,992,558,center,center/media/opinion/images/2023/10/19/2023101915363529824.jpg",
+          label: 'Oriente Boliviano'
+        }
+      ],
+      // Variables para el carrusel de culturas
+      currentCultureIndex: 0,
+      culturesPerView: 4,
+      cultureCardWidth: 280,
+      cultureGap: 20,
+      // Datos para descubrimientos
+      discoveries: [
+        {
+          title: 'Sucre: desde medieval',
+          image: 'https://www.bolivianfullexplorer.com/wp-content/uploads/2022/11/CASTILLO-2.jpg'
+        },
+        {
+          title: 'Los mejores museos interactivos para diversión familiar',
+          image: 'https://www.laregion.bo/wp-content/uploads/2015/10/MUSEO-NAL.-DE-ARTE-1024x702.jpg'
+        },
+        {
+          title: 'Una mirada interna a la tradición de sauna de humo de los Valles',
+          image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFORi2vwFswmM9RvWlW35FbeEE5MgwtpX4-A3nrHitDB_-TZ6HHE4bX2gn35hiQemPsr68BSUqtbm9r-rdBVWgzjx4YAD1jIzbjmAiyhmNb_zUqy98Oc3sHrLp4g_enqRvmnwcF4-zCcg/s1600/lacultura+kallawaya.jpg'
+        },
+        {
+          title: 'Bolivia medieval y la Liga Hanseática',
+          image: 'https://historiadelfutbolboliviano.com/wp-content/uploads/2013/12/aflp-directivos-01.jpg'
+        },
+        {
+          title: 'Trajes nacionales',
+          image: 'https://cdn.bolivia.com/sdi/2017/11/14/bolivia-uno-de-los-trajes-tipicos-mas-llamativos-en-miss-universo-581921.jpg'
+        }
+      ],
+      // Variables para el carrusel de descubrimientos
+      currentDiscoveryIndex: 0,
+      discoveriesPerView: 4,
+      discoveryCardWidth: 300,
+      discoveryGap: 20,
+      // Datos para artículos recomendados
+      recommendedArticles: [
+        {
+          title: 'Viaje lento en Bolivia puede mejorar tu bienestar',
+          image: 'https://bushop.com/wp-content/uploads/sites/6/RSCN4472.jpg'
+        },
+        {
+          title: 'Trajes nacionales: Una parte colorida de la identidad boliviana',
+          image: 'https://eldeber.com.bo/sites/default/efsfiles/2024-09/estefany-rivero-_923569092_1140x520.png'
+        },
+        {
+          title: 'Patrimonio UNESCO en Bolivia',
+          image: 'https://www.lobodelaire.com/contenido/imagenes/noticias/2021/12/07/not-8591-1638935332llamerada-lda.jpg'
+        },
+        {
+          title: 'Sur de Bolivia — El destino definitivo para retiros de nómadas digitales',
+          image: 'https://revistanomadas.com/wp-content/uploads/2021/06/d-negocio-deforestacion-bolivia-1.jpg'
+        },
+        {
+          title: 'CI a',
+          image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&crop=center'
+        }
+      ],
+      // Variables para el carrusel de artículos
+      currentArticleIndex: 0,
+      articlesPerView: 4,
+      articleCardWidth: 300,
+      articleGap: 20
+    }
+  },
+  computed: {
+    // Propiedades computadas para el carrusel
+    maxIndex() {
+      return Math.max(0, this.culturalRegions.length - this.visibleCards)
+    },
+    progressWidth() {
+      if (this.culturalRegions.length <= this.visibleCards) return '100%'
+      return `${((this.currentIndex + this.visibleCards) / this.culturalRegions.length) * 100}%`
+    },
+    filteredPlaces() {
+      if (this.activeFilter === 'all') {
+        return this.culturalPlaces
+      }
+      return this.culturalPlaces.filter(place => place.subcategory === this.activeFilter)
+    },
+    // Propiedades computadas para el carrusel de culturas
+    maxCultureIndex() {
+      return Math.max(0, this.regionalCultures.length - this.culturesPerView)
+    },
+    progressPercentage() {
+      if (this.regionalCultures.length <= this.culturesPerView) return '100%'
+      return `${((this.currentCultureIndex + this.culturesPerView) / this.regionalCultures.length) * 100}%`
+    },
+    // Propiedades computadas para descubrimientos
+    maxDiscoveryIndex() {
+      return Math.max(0, this.discoveries.length - this.discoveriesPerView)
+    },
+    discoveriesProgressWidth() {
+      if (this.discoveries.length <= this.discoveriesPerView) return '100%'
+      return `${((this.currentDiscoveryIndex + this.discoveriesPerView) / this.discoveries.length) * 100}%`
+    },
+    // Propiedades computadas para artículos
+    maxArticleIndex() {
+      return Math.max(0, this.recommendedArticles.length - this.articlesPerView)
+    },
+    articlesProgressWidth() {
+      if (this.recommendedArticles.length <= this.articlesPerView) return '100%'
+      return `${((this.currentArticleIndex + this.articlesPerView) / this.recommendedArticles.length) * 100}%`
+    }
+  },
+  methods: {
+    // Métodos para el carrusel
+    scrollLeft() {
+      console.log('scrollLeft - currentIndex:', this.currentIndex, 'maxIndex:', this.maxIndex)
+      if (this.currentIndex > 0) {
+        const newIndex = this.currentIndex - 1
+        console.log('scrollLeft - newIndex:', newIndex)
+        this.currentIndex = newIndex
+        this.animateToPosition(newIndex * (this.cardWidth + this.gap), false)
+      }
+    },
+    scrollRight() {
+      console.log('scrollRight - currentIndex:', this.currentIndex, 'maxIndex:', this.maxIndex)
+      if (this.currentIndex < this.maxIndex) {
+        const newIndex = this.currentIndex + 1
+        console.log('scrollRight - newIndex:', newIndex)
+        this.currentIndex = newIndex
+        this.animateToPosition(newIndex * (this.cardWidth + this.gap), false)
+      }
+    },
+    updateCarouselPosition() {
+      const carousel = this.$refs.regionsCarousel
+      if (carousel) {
+        const translateX = -(this.currentIndex * (this.cardWidth + this.gap))
+        carousel.style.transform = `translateX(${translateX}px)`
+      }
+    },
+    getCurrentCarouselPosition() {
+      const carousel = this.$refs.regionsCarousel
+      if (!carousel) return 0
+      
+      const transform = carousel.style.transform
+      console.log('getCurrentCarouselPosition - transform:', transform)
+      
+      if (transform.includes('translateX')) {
+        const match = transform.match(/translateX\(-?(\d+\.?\d*)px\)/)
+        const position = match ? parseFloat(match[1]) : 0
+        console.log('getCurrentCarouselPosition - position:', position)
+        return position
+      }
+      return 0
+    },
+    updateCurrentIndexFromPosition() {
+      const currentPosition = this.getCurrentCarouselPosition()
+      const cardWidth = this.cardWidth + this.gap
+      const newIndex = Math.round(currentPosition / cardWidth)
+      console.log('updateCurrentIndexFromPosition - currentPosition:', currentPosition, 'cardWidth:', cardWidth, 'newIndex:', newIndex)
+      this.currentIndex = Math.max(0, Math.min(this.maxIndex, newIndex))
+      console.log('updateCurrentIndexFromPosition - final currentIndex:', this.currentIndex)
+    },
+    // Métodos para scroll con mouse
+    handleMouseDown(e) {
+      this.isDragging = true
+      this.startX = e.pageX - this.$refs.regionsCarousel.offsetLeft
+      this.scrollPosition = this.currentIndex * (this.cardWidth + this.gap)
+      this.velocity = 0
+      this.lastX = e.pageX
+      this.lastTime = Date.now()
+      
+      // Prevenir selección de texto
+      e.preventDefault()
+      
+      // Cambiar cursor y agregar clase
+      document.body.style.cursor = 'grabbing'
+      document.body.style.userSelect = 'none'
+      this.$refs.regionsCarousel.classList.add('dragging')
+    },
+    handleMouseMove(e) {
+      if (!this.isDragging) return
+      
+      e.preventDefault()
+      
+      const x = e.pageX - this.$refs.regionsCarousel.offsetLeft
+      const walkX = (x - this.startX) * 2
+      
+      // Calcular velocidad para momentum (solo horizontal)
+      const currentTime = Date.now()
+      const deltaTime = currentTime - this.lastTime
+      if (deltaTime > 0) {
+        this.velocity = (e.pageX - this.lastX) / deltaTime
+      }
+      this.lastX = e.pageX
+      this.lastTime = currentTime
+      
+      // Aplicar scroll suave solo horizontal
+      const newScrollLeft = this.scrollPosition - walkX
+      
+      // Limitar scroll horizontal
+      const maxScrollLeft = (this.culturalRegions.length - 3) * (this.cardWidth + this.gap)
+      const limitedScrollLeft = Math.max(0, Math.min(maxScrollLeft, newScrollLeft))
+      
+      // Aplicar transformación solo horizontal
+      this.$refs.regionsCarousel.style.transform = `translateX(-${limitedScrollLeft}px)`
+    },
+    handleMouseUp(e) {
+      if (!this.isDragging) return
+      
+      this.isDragging = false
+      
+      // Restaurar cursor y remover clase
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+      this.$refs.regionsCarousel.classList.remove('dragging')
+      
+      // Aplicar momentum si hay velocidad
+      if (Math.abs(this.velocity) > 0.1) {
+        this.applyMomentum()
+      } else {
+        this.snapToNearestCard()
+      }
+    },
+    handleMouseLeave(e) {
+      if (this.isDragging) {
+        this.handleMouseUp(e)
+      }
+    },
+    // Métodos para touch events
+    handleTouchStart(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleMouseDown({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    handleTouchMove(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleMouseMove({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    handleTouchEnd(e) {
+      this.handleMouseUp(e)
+    },
+    
+    // Métodos para drag del carrusel de culturas
+    handleCulturesMouseDown(e) {
+      this.isCulturesDragging = true
+      this.culturesStartX = e.pageX - this.$refs.culturesCarousel.offsetLeft
+      this.culturesScrollPosition = this.currentCultureIndex * (this.cultureCardWidth + this.cultureGap)
+      this.culturesVelocity = 0
+      this.culturesLastX = e.pageX
+      this.culturesLastTime = Date.now()
+      
+      e.preventDefault()
+      
+      document.body.style.cursor = 'grabbing'
+      document.body.style.userSelect = 'none'
+      this.$refs.culturesCarousel.classList.add('dragging')
+    },
+    
+    handleCulturesMouseMove(e) {
+      if (!this.isCulturesDragging) return
+      
+      e.preventDefault()
+      
+      const x = e.pageX - this.$refs.culturesCarousel.offsetLeft
+      const walkX = (x - this.culturesStartX) * 2
+      
+      const currentTime = Date.now()
+      const deltaTime = currentTime - this.culturesLastTime
+      if (deltaTime > 0) {
+        this.culturesVelocity = (e.pageX - this.culturesLastX) / deltaTime
+      }
+      this.culturesLastX = e.pageX
+      this.culturesLastTime = currentTime
+      
+      const newScrollLeft = this.culturesScrollPosition - walkX
+      const maxScrollLeft = (this.regionalCultures.length - 3) * (this.cultureCardWidth + this.cultureGap)
+      const limitedScrollLeft = Math.max(0, Math.min(maxScrollLeft, newScrollLeft))
+      
+      this.$refs.culturesCarousel.style.transform = `translateX(-${limitedScrollLeft}px)`
+    },
+    
+    handleCulturesMouseUp(e) {
+      if (!this.isCulturesDragging) return
+      
+      this.isCulturesDragging = false
+      
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+      this.$refs.culturesCarousel.classList.remove('dragging')
+      
+      if (Math.abs(this.culturesVelocity) > 0.1) {
+        this.applyCulturesMomentum()
+      } else {
+        this.snapCulturesToNearestCard()
+      }
+    },
+    
+    handleCulturesMouseLeave(e) {
+      if (this.isCulturesDragging) {
+        this.handleCulturesMouseUp(e)
+      }
+    },
+    
+    handleCulturesTouchStart(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleCulturesMouseDown({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleCulturesTouchMove(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleCulturesMouseMove({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleCulturesTouchEnd(e) {
+      this.handleCulturesMouseUp(e)
+    },
+    
+    applyCulturesMomentum() {
+      const momentum = this.culturesVelocity * 100
+      const currentScroll = this.currentCultureIndex * (this.cultureCardWidth + this.cultureGap)
+      const targetScroll = currentScroll - momentum
+      
+      const maxScroll = (this.regionalCultures.length - 3) * (this.cultureCardWidth + this.cultureGap)
+      const limitedTarget = Math.max(0, Math.min(maxScroll, targetScroll))
+      
+      this.animateCulturesToPosition(limitedTarget)
+    },
+    
+    snapCulturesToNearestCard() {
+      const currentScroll = this.currentCultureIndex * (this.cultureCardWidth + this.cultureGap)
+      const cardWidth = this.cultureCardWidth + this.cultureGap
+      const nearestIndex = Math.round(currentScroll / cardWidth)
+      const targetIndex = Math.max(0, Math.min(this.maxCultureIndex, nearestIndex))
+      
+      this.currentCultureIndex = targetIndex
+      this.updateCulturesCarouselPosition()
+    },
+    
+    animateCulturesToPosition(targetPosition) {
+      const startPosition = this.currentCultureIndex * (this.cultureCardWidth + this.cultureGap)
+      const distance = targetPosition - startPosition
+      const duration = 300
+      const startTime = Date.now()
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+        
+        const currentPosition = startPosition + (distance * easeProgress)
+        this.$refs.culturesCarousel.style.transform = `translateX(-${currentPosition}px)`
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          this.snapCulturesToNearestCard()
+        }
+      }
+      
+      animate()
+    },
+    
+    // Métodos para drag del carrusel de artículos
+    handleArticlesMouseDown(e) {
+      this.isArticlesDragging = true
+      this.articlesStartX = e.pageX - this.$refs.articlesCarousel.offsetLeft
+      this.articlesScrollPosition = this.currentArticleIndex * (this.articleCardWidth + this.articleGap)
+      this.articlesVelocity = 0
+      this.articlesLastX = e.pageX
+      this.articlesLastTime = Date.now()
+      
+      e.preventDefault()
+      
+      document.body.style.cursor = 'grabbing'
+      document.body.style.userSelect = 'none'
+      this.$refs.articlesCarousel.classList.add('dragging')
+    },
+    
+    handleArticlesMouseMove(e) {
+      if (!this.isArticlesDragging) return
+      
+      e.preventDefault()
+      
+      const x = e.pageX - this.$refs.articlesCarousel.offsetLeft
+      const walkX = (x - this.articlesStartX) * 2
+      
+      const currentTime = Date.now()
+      const deltaTime = currentTime - this.articlesLastTime
+      if (deltaTime > 0) {
+        this.articlesVelocity = (e.pageX - this.articlesLastX) / deltaTime
+      }
+      this.articlesLastX = e.pageX
+      this.articlesLastTime = currentTime
+      
+      const newScrollLeft = this.articlesScrollPosition - walkX
+      const maxScrollLeft = (this.recommendedArticles.length - 3) * (this.articleCardWidth + this.articleGap)
+      const limitedScrollLeft = Math.max(0, Math.min(maxScrollLeft, newScrollLeft))
+      
+      this.$refs.articlesCarousel.style.transform = `translateX(-${limitedScrollLeft}px)`
+    },
+    
+    handleArticlesMouseUp(e) {
+      if (!this.isArticlesDragging) return
+      
+      this.isArticlesDragging = false
+      
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+      this.$refs.articlesCarousel.classList.remove('dragging')
+      
+      if (Math.abs(this.articlesVelocity) > 0.1) {
+        this.applyArticlesMomentum()
+      } else {
+        this.snapArticlesToNearestCard()
+      }
+    },
+    
+    handleArticlesMouseLeave(e) {
+      if (this.isArticlesDragging) {
+        this.handleArticlesMouseUp(e)
+      }
+    },
+    
+    handleArticlesTouchStart(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleArticlesMouseDown({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleArticlesTouchMove(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleArticlesMouseMove({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleArticlesTouchEnd(e) {
+      this.handleArticlesMouseUp(e)
+    },
+    
+    applyArticlesMomentum() {
+      const momentum = this.articlesVelocity * 100
+      const currentScroll = this.currentArticleIndex * (this.articleCardWidth + this.articleGap)
+      const targetScroll = currentScroll - momentum
+      
+      const maxScroll = (this.recommendedArticles.length - 3) * (this.articleCardWidth + this.articleGap)
+      const limitedTarget = Math.max(0, Math.min(maxScroll, targetScroll))
+      
+      this.animateArticlesToPosition(limitedTarget)
+    },
+    
+    snapArticlesToNearestCard() {
+      const currentScroll = this.currentArticleIndex * (this.articleCardWidth + this.articleGap)
+      const cardWidth = this.articleCardWidth + this.articleGap
+      const nearestIndex = Math.round(currentScroll / cardWidth)
+      const targetIndex = Math.max(0, Math.min(this.maxArticleIndex, nearestIndex))
+      
+      this.currentArticleIndex = targetIndex
+      this.updateArticlesCarouselPosition()
+    },
+    
+    animateArticlesToPosition(targetPosition) {
+      const startPosition = this.currentArticleIndex * (this.articleCardWidth + this.articleGap)
+      const distance = targetPosition - startPosition
+      const duration = 300
+      const startTime = Date.now()
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+        
+        const currentPosition = startPosition + (distance * easeProgress)
+        this.$refs.articlesCarousel.style.transform = `translateX(-${currentPosition}px)`
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          this.snapArticlesToNearestCard()
+        }
+      }
+      
+      animate()
+    },
+    
+    // Métodos para drag del carrusel de descubrimientos
+    handleDiscoveriesMouseDown(e) {
+      this.isDiscoveriesDragging = true
+      this.discoveriesStartX = e.pageX - this.$refs.discoveriesCarousel.offsetLeft
+      this.discoveriesScrollPosition = this.currentDiscoveryIndex * (this.discoveryCardWidth + this.discoveryGap)
+      this.discoveriesVelocity = 0
+      this.discoveriesLastX = e.pageX
+      this.discoveriesLastTime = Date.now()
+      
+      e.preventDefault()
+      
+      document.body.style.cursor = 'grabbing'
+      document.body.style.userSelect = 'none'
+      this.$refs.discoveriesCarousel.classList.add('dragging')
+    },
+    
+    handleDiscoveriesMouseMove(e) {
+      if (!this.isDiscoveriesDragging) return
+      
+      e.preventDefault()
+      
+      const x = e.pageX - this.$refs.discoveriesCarousel.offsetLeft
+      const walkX = (x - this.discoveriesStartX) * 2
+      
+      const currentTime = Date.now()
+      const deltaTime = currentTime - this.discoveriesLastTime
+      if (deltaTime > 0) {
+        this.discoveriesVelocity = (e.pageX - this.discoveriesLastX) / deltaTime
+      }
+      this.discoveriesLastX = e.pageX
+      this.discoveriesLastTime = currentTime
+      
+      const newScrollLeft = this.discoveriesScrollPosition - walkX
+      const maxScrollLeft = (this.discoveries.length - 3) * (this.discoveryCardWidth + this.discoveryGap)
+      const limitedScrollLeft = Math.max(0, Math.min(maxScrollLeft, newScrollLeft))
+      
+      this.$refs.discoveriesCarousel.style.transform = `translateX(-${limitedScrollLeft}px)`
+    },
+    
+    handleDiscoveriesMouseUp(e) {
+      if (!this.isDiscoveriesDragging) return
+      
+      this.isDiscoveriesDragging = false
+      
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+      this.$refs.discoveriesCarousel.classList.remove('dragging')
+      
+      if (Math.abs(this.discoveriesVelocity) > 0.1) {
+        this.applyDiscoveriesMomentum()
+      } else {
+        this.snapDiscoveriesToNearestCard()
+      }
+    },
+    
+    handleDiscoveriesMouseLeave(e) {
+      if (this.isDiscoveriesDragging) {
+        this.handleDiscoveriesMouseUp(e)
+      }
+    },
+    
+    handleDiscoveriesTouchStart(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleDiscoveriesMouseDown({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleDiscoveriesTouchMove(e) {
+      if (e.touches.length === 1) {
+        const touch = e.touches[0]
+        this.handleDiscoveriesMouseMove({
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          preventDefault: () => e.preventDefault()
+        })
+      }
+    },
+    
+    handleDiscoveriesTouchEnd(e) {
+      this.handleDiscoveriesMouseUp(e)
+    },
+    
+    applyDiscoveriesMomentum() {
+      const momentum = this.discoveriesVelocity * 100
+      const currentScroll = this.currentDiscoveryIndex * (this.discoveryCardWidth + this.discoveryGap)
+      const targetScroll = currentScroll - momentum
+      
+      const maxScroll = (this.discoveries.length - 3) * (this.discoveryCardWidth + this.discoveryGap)
+      const limitedTarget = Math.max(0, Math.min(maxScroll, targetScroll))
+      
+      this.animateDiscoveriesToPosition(limitedTarget)
+    },
+    
+    snapDiscoveriesToNearestCard() {
+      const currentScroll = this.currentDiscoveryIndex * (this.discoveryCardWidth + this.discoveryGap)
+      const cardWidth = this.discoveryCardWidth + this.discoveryGap
+      const nearestIndex = Math.round(currentScroll / cardWidth)
+      const targetIndex = Math.max(0, Math.min(this.maxDiscoveryIndex, nearestIndex))
+      
+      this.currentDiscoveryIndex = targetIndex
+      this.updateDiscoveriesCarouselPosition()
+    },
+    
+    animateDiscoveriesToPosition(targetPosition) {
+      const startPosition = this.currentDiscoveryIndex * (this.discoveryCardWidth + this.discoveryGap)
+      const distance = targetPosition - startPosition
+      const duration = 300
+      const startTime = Date.now()
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+        
+        const currentPosition = startPosition + (distance * easeProgress)
+        this.$refs.discoveriesCarousel.style.transform = `translateX(-${currentPosition}px)`
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          this.snapDiscoveriesToNearestCard()
+        }
+      }
+      
+      animate()
+    },
+    applyMomentum() {
+      const momentum = this.velocity * 100
+      const currentScroll = this.currentIndex * (this.cardWidth + this.gap)
+      const targetScroll = currentScroll - momentum
+      
+      // Limitar momentum
+      const maxScroll = (this.culturalRegions.length - 3) * (this.cardWidth + this.gap)
+      const limitedTarget = Math.max(0, Math.min(maxScroll, targetScroll))
+      
+      // Animar hacia la posición final
+      this.animateToPosition(limitedTarget)
+    },
+    snapToNearestCard() {
+      const currentScroll = this.currentIndex * (this.cardWidth + this.gap)
+      const cardWidth = this.cardWidth + this.gap
+      const nearestIndex = Math.round(currentScroll / cardWidth)
+      const targetIndex = Math.max(0, Math.min(this.maxIndex, nearestIndex))
+      
+      this.currentIndex = targetIndex
+      this.animateToPosition(targetIndex * cardWidth)
+    },
+    animateToPosition(targetPosition, updateIndex = true) {
+      const carousel = this.$refs.regionsCarousel
+      if (!carousel) return
+      
+      // Obtener la posición actual del carrusel
+      const currentPosition = this.getCurrentCarouselPosition()
+      const distance = targetPosition - currentPosition
+      const duration = 300
+      const startTime = Date.now()
+      
+      console.log('animateToPosition - currentPosition:', currentPosition, 'targetPosition:', targetPosition, 'distance:', distance)
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        
+        // Easing function (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3)
+        const newPosition = currentPosition + (distance * easeOut)
+        
+        carousel.style.transform = `translateX(-${newPosition}px)`
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          // Asegurar que esté en la posición exacta
+          carousel.style.transform = `translateX(-${targetPosition}px)`
+          console.log('animateToPosition - animation completed, targetPosition:', targetPosition)
+          // Solo actualizar el índice si se solicita
+          if (updateIndex) {
+            this.updateCurrentIndexFromPosition()
+            console.log('animateToPosition - final currentIndex:', this.currentIndex)
+          }
+        }
+      }
+      
+      requestAnimationFrame(animate)
+    },
+    setActiveFilter(filterId) {
+      this.activeFilter = filterId
+    },
+    navigateToPlace(place) {
+      this.$router.push(`/lugar/${place.id}`)
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    },
+    // Métodos para el carrusel de culturas regionales
+    scrollCarouselLeft() {
+      if (this.currentCultureIndex > 0) {
+        this.currentCultureIndex--
+        this.updateCulturesCarouselPosition()
+      }
+    },
+    scrollCarouselRight() {
+      if (this.currentCultureIndex < this.maxCultureIndex) {
+        this.currentCultureIndex++
+        this.updateCulturesCarouselPosition()
+      }
+    },
+    updateCulturesCarouselPosition() {
+      const carousel = this.$refs.culturesCarousel
+      if (carousel) {
+        const translateX = -(this.currentCultureIndex * (this.cultureCardWidth + this.cultureGap))
+        carousel.style.transform = `translateX(${translateX}px)`
+      }
+    },
+    // Métodos para la sección UNESCO
+    playVideo() {
+      // Aquí podrías implementar la lógica para reproducir un video real
+      console.log('Reproducir video de tesoros UNESCO')
+      // Por ahora solo mostramos un alert
+      alert('Funcionalidad de video en desarrollo')
+    },
+    viewUnescoSites() {
+      // Navegar a una página de sitios UNESCO o mostrar modal
+      console.log('Ver lista de sitios UNESCO')
+      // Por ahora solo mostramos un alert
+      alert('Lista de sitios UNESCO de Bolivia:\n\n• Ciudad de Potosí\n• Misiones Jesuíticas de Chiquitos\n• Fuerte de Samaipata\n• Tiwanaku\n• Carnaval de Oruro\n• Ichapekene Piesta')
+    },
+    // Métodos para museos
+    readMoreMuseums() {
+      console.log('Leer más sobre museos')
+      alert('Museos destacados de Bolivia:\n\n• Museo Nacional de Arte\n• Museo de Etnografía y Folklore\n• Museo de la Casa de la Libertad\n• Museo de Tiwanaku\n• Museo de Arte Contemporáneo')
+    },
+    // Métodos para descubrimientos
+    scrollDiscoveriesLeft() {
+      if (this.currentDiscoveryIndex > 0) {
+        this.currentDiscoveryIndex--
+        this.updateDiscoveriesCarouselPosition()
+      }
+    },
+    scrollDiscoveriesRight() {
+      if (this.currentDiscoveryIndex < this.maxDiscoveryIndex) {
+        this.currentDiscoveryIndex++
+        this.updateDiscoveriesCarouselPosition()
+      }
+    },
+    updateDiscoveriesCarouselPosition() {
+      const carousel = this.$refs.discoveriesCarousel
+      if (carousel) {
+        const translateX = -(this.currentDiscoveryIndex * (this.discoveryCardWidth + this.discoveryGap))
+        carousel.style.transform = `translateX(${translateX}px)`
+      }
+    },
+    // Métodos para artículos
+    scrollArticlesLeft() {
+      if (this.currentArticleIndex > 0) {
+        this.currentArticleIndex--
+        this.updateArticlesCarouselPosition()
+      }
+    },
+    scrollArticlesRight() {
+      if (this.currentArticleIndex < this.maxArticleIndex) {
+        this.currentArticleIndex++
+        this.updateArticlesCarouselPosition()
+      }
+    },
+    updateArticlesCarouselPosition() {
+      const carousel = this.$refs.articlesCarousel
+      if (carousel) {
+        const translateX = -(this.currentArticleIndex * (this.articleCardWidth + this.articleGap))
+        carousel.style.transform = `translateX(${translateX}px)`
+      }
+    },
+    // Métodos para gastronomía
+    viewFoodGuide() {
+      console.log('Ver guía de comida')
+      alert('Guía de comida boliviana:\n\n• Salteñas\n• Anticuchos\n• Silpancho\n• Chicha\n• Api\n• Quinoa\n• Llama\n• Trucha')
+    },
+    handleResize() {
+      // Recalcular el ancho de las tarjetas en resize
+      const carousel = this.$refs.regionsCarousel
+      if (carousel) {
+        const containerWidth = carousel.parentElement.offsetWidth
+        this.cardWidth = containerWidth / this.visibleCards
+        this.updateCarouselPosition()
+      }
+    }
+  },
+  mounted() {
+    // Inicializar posición de todos los carruseles
+    this.$nextTick(() => {
+      this.updateCarouselPosition()
+      this.updateCulturesCarouselPosition()
+      this.updateDiscoveriesCarouselPosition()
+      this.updateArticlesCarouselPosition()
+      
+      // Agregar event listeners para scroll con mouse - Carrusel de regiones
+      const carousel = this.$refs.regionsCarousel
+      if (carousel) {
+        carousel.addEventListener('mousedown', this.handleMouseDown)
+        document.addEventListener('mousemove', this.handleMouseMove)
+        document.addEventListener('mouseup', this.handleMouseUp)
+        carousel.addEventListener('mouseleave', this.handleMouseLeave)
+        
+        // Touch events para móviles
+        carousel.addEventListener('touchstart', this.handleTouchStart, { passive: false })
+        document.addEventListener('touchmove', this.handleTouchMove, { passive: false })
+        document.addEventListener('touchend', this.handleTouchEnd)
+        
+        // Prevenir drag de imágenes
+        const images = carousel.querySelectorAll('img')
+        images.forEach(img => {
+          img.addEventListener('dragstart', (e) => e.preventDefault())
+        })
+      }
+      
+      // Agregar event listeners para el carrusel de culturas
+      const culturesCarousel = this.$refs.culturesCarousel
+      if (culturesCarousel) {
+        culturesCarousel.addEventListener('mousedown', this.handleCulturesMouseDown)
+        document.addEventListener('mousemove', this.handleCulturesMouseMove)
+        document.addEventListener('mouseup', this.handleCulturesMouseUp)
+        culturesCarousel.addEventListener('mouseleave', this.handleCulturesMouseLeave)
+        
+        // Touch events para móviles
+        culturesCarousel.addEventListener('touchstart', this.handleCulturesTouchStart, { passive: false })
+        document.addEventListener('touchmove', this.handleCulturesTouchMove, { passive: false })
+        document.addEventListener('touchend', this.handleCulturesTouchEnd)
+        
+        // Prevenir drag de imágenes
+        const culturesImages = culturesCarousel.querySelectorAll('img')
+        culturesImages.forEach(img => {
+          img.addEventListener('dragstart', (e) => e.preventDefault())
+        })
+      }
+      
+      // Agregar event listeners para el carrusel de artículos
+      const articlesCarousel = this.$refs.articlesCarousel
+      if (articlesCarousel) {
+        articlesCarousel.addEventListener('mousedown', this.handleArticlesMouseDown)
+        document.addEventListener('mousemove', this.handleArticlesMouseMove)
+        document.addEventListener('mouseup', this.handleArticlesMouseUp)
+        articlesCarousel.addEventListener('mouseleave', this.handleArticlesMouseLeave)
+        
+        // Touch events para móviles
+        articlesCarousel.addEventListener('touchstart', this.handleArticlesTouchStart, { passive: false })
+        document.addEventListener('touchmove', this.handleArticlesTouchMove, { passive: false })
+        document.addEventListener('touchend', this.handleArticlesTouchEnd)
+        
+        // Prevenir drag de imágenes
+        const articlesImages = articlesCarousel.querySelectorAll('img')
+        articlesImages.forEach(img => {
+          img.addEventListener('dragstart', (e) => e.preventDefault())
+        })
+      }
+      
+      // Agregar event listeners para el carrusel de descubrimientos
+      const discoveriesCarousel = this.$refs.discoveriesCarousel
+      if (discoveriesCarousel) {
+        discoveriesCarousel.addEventListener('mousedown', this.handleDiscoveriesMouseDown)
+        document.addEventListener('mousemove', this.handleDiscoveriesMouseMove)
+        document.addEventListener('mouseup', this.handleDiscoveriesMouseUp)
+        discoveriesCarousel.addEventListener('mouseleave', this.handleDiscoveriesMouseLeave)
+        
+        // Touch events para móviles
+        discoveriesCarousel.addEventListener('touchstart', this.handleDiscoveriesTouchStart, { passive: false })
+        document.addEventListener('touchmove', this.handleDiscoveriesTouchMove, { passive: false })
+        document.addEventListener('touchend', this.handleDiscoveriesTouchEnd)
+        
+        // Prevenir drag de imágenes
+        const discoveriesImages = discoveriesCarousel.querySelectorAll('img')
+        discoveriesImages.forEach(img => {
+          img.addEventListener('dragstart', (e) => e.preventDefault())
+        })
+      }
+    })
+  },
+  beforeUnmount() {
+    // Limpiar event listeners del carrusel de regiones
+    const carousel = this.$refs.regionsCarousel
+    if (carousel) {
+      carousel.removeEventListener('mousedown', this.handleMouseDown)
+      document.removeEventListener('mousemove', this.handleMouseMove)
+      document.removeEventListener('mouseup', this.handleMouseUp)
+      carousel.removeEventListener('mouseleave', this.handleMouseLeave)
+      
+      // Limpiar touch events
+      carousel.removeEventListener('touchstart', this.handleTouchStart)
+      document.removeEventListener('touchmove', this.handleTouchMove)
+      document.removeEventListener('touchend', this.handleTouchEnd)
+    }
+    
+    // Limpiar event listeners del carrusel de culturas
+    const culturesCarousel = this.$refs.culturesCarousel
+    if (culturesCarousel) {
+      culturesCarousel.removeEventListener('mousedown', this.handleCulturesMouseDown)
+      document.removeEventListener('mousemove', this.handleCulturesMouseMove)
+      document.removeEventListener('mouseup', this.handleCulturesMouseUp)
+      culturesCarousel.removeEventListener('mouseleave', this.handleCulturesMouseLeave)
+      
+      // Limpiar touch events
+      culturesCarousel.removeEventListener('touchstart', this.handleCulturesTouchStart)
+      document.removeEventListener('touchmove', this.handleCulturesTouchMove)
+      document.removeEventListener('touchend', this.handleCulturesTouchEnd)
+    }
+    
+    // Limpiar event listeners del carrusel de artículos
+    const articlesCarousel = this.$refs.articlesCarousel
+    if (articlesCarousel) {
+      articlesCarousel.removeEventListener('mousedown', this.handleArticlesMouseDown)
+      document.removeEventListener('mousemove', this.handleArticlesMouseMove)
+      document.removeEventListener('mouseup', this.handleArticlesMouseUp)
+      articlesCarousel.removeEventListener('mouseleave', this.handleArticlesMouseLeave)
+      
+      // Limpiar touch events
+      articlesCarousel.removeEventListener('touchstart', this.handleArticlesTouchStart)
+      document.removeEventListener('touchmove', this.handleArticlesTouchMove)
+      document.removeEventListener('touchend', this.handleArticlesTouchEnd)
+    }
+    
+    // Limpiar event listeners del carrusel de descubrimientos
+    const discoveriesCarousel = this.$refs.discoveriesCarousel
+    if (discoveriesCarousel) {
+      discoveriesCarousel.removeEventListener('mousedown', this.handleDiscoveriesMouseDown)
+      document.removeEventListener('mousemove', this.handleDiscoveriesMouseMove)
+      document.removeEventListener('mouseup', this.handleDiscoveriesMouseUp)
+      discoveriesCarousel.removeEventListener('mouseleave', this.handleDiscoveriesMouseLeave)
+      
+      // Limpiar touch events
+      discoveriesCarousel.removeEventListener('touchstart', this.handleDiscoveriesTouchStart)
+      document.removeEventListener('touchmove', this.handleDiscoveriesTouchMove)
+      document.removeEventListener('touchend', this.handleDiscoveriesTouchEnd)
+    }
+    
+    // Restaurar estilos del body
+    document.body.style.cursor = 'default'
+    document.body.style.userSelect = 'auto'
+  }
+}
+</script>
+
+<style scoped>
+.cultura-page {
+  background: var(--bg-primary);
+}
+
+/* Hero Section - Estilo Estonia */
+.cultura-hero-section {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70vh;
+  z-index: 1;
+}
+
+.hero-background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.05) contrast(1.05);
+}
+
+.photo-credit {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  color: var(--white);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-regular);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  /* backdrop-filter: blur(5px); */
+}
+
+/* Overlay de texto con estilo Estonia */
+.hero-text-overlay {
+  position: relative;
+  margin: auto;
+  top: 200px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 0;
+}
+
+.text-container {
+  background: var(--bg-secondary);
+  border-radius: 24px 24px 24px 24px;
+  padding: 2.5rem 3rem 2.5rem 3rem;
+  width: 100%;
+  max-width: none;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  position: relative;
+  bottom: 0;
+  margin-bottom: 0;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-main-title {
+  font-family: var(--font-weight-light);
+  font-size: 2rem;
+  /* font-weight: var(--font-weight-semibold); */
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.hero-description {
+  font-family: var(--font-family-base);
+  font-size: 1rem;
+  font-weight: var(--font-weight-regular);
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+  max-width: 700px;
+  letter-spacing: 0.01em;
+}
+
+/* Icono inferior izquierdo */
+.hero-icon {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 4;
+  width: 50px;
+  height: 50px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+.hero-icon:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Información Cultural Section - Estilo Estonia */
+.cultural-info-section {
+  padding: 4rem 0;
+  /* background: var(--section-accent); */
+  /* border-bottom: 1px solid var(--border-light); */
+}
+
+.cultural-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Información del autor */
+.author-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.author-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+  max-width: 100px;
+}
+
+.author-name {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.author-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0;
+  font-weight: var(--font-weight-regular);
+}
+
+/* Título cultural */
+.cultural-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-light);
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+  text-align: left;
+  letter-spacing: -0.01em;
+}
+
+/* Texto cultural */
+.cultural-text {
+  text-align: left;
+  line-height: 1.7;
+}
+
+.cultural-text p {
+  font-size: 1.125rem;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.cultural-text p:last-child {
+  margin-bottom: 0;
+}
+
+.text-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  transition: color 0.2s ease;
+}
+
+.text-link:hover {
+  color: var(--primary-blue-dark);
+  text-decoration: underline;
+}
+
+.cultural-text strong {
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+}
+
+/* Filtros Section */
+.filters-section {
+  padding: 3rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.filters-container {
+  text-align: center;
+}
+
+.filters-title {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+.filters-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color);
+  background: var(--white);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.filter-pill:hover {
+  background: var(--light-gray);
+  border-color: var(--category-cultura);
+  color: var(--category-cultura);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.filter-pill.active {
+  background: var(--category-cultura);
+  color: var(--white);
+  border-color: var(--category-cultura);
+}
+
+.filter-pill.active:hover {
+  background: var(--category-cultura);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Historia Section - Estilo Estonia */
+.history-section {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.history-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.history-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.history-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Caja de contenido superpuesta */
+.history-content-box {
+  position: relative;
+  z-index: 3;
+  max-width: 500px;
+  margin: 0 2rem 4rem auto;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
+}
+
+.history-title {
+  font-size: 2rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.history-description {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.history-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-blue);
+  background: var(--white);
+  border: 2px solid var(--primary-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.history-cta-btn:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Crédito de la foto */
+.photo-credit {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.photo-author {
+  font-size: 0.875rem;
+  color: var(--white);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.photo-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  color: var(--white);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+}
+
+/* Culturas Regionales Section - Carrusel Horizontal Estilo Estonia */
+.cultural-regions-section {
+  padding: 4rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  width: 100%;
+  margin: 0;
+}
+
+.regions-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2rem;
+  
+}
+
+.regions-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.regions-description {
+  font-size: 1.125rem;
+  font-family: var(--font-family-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.regions-carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  background: var(--white);
+  box-shadow: none;
+}
+
+.regions-carousel {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 2rem;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.regions-carousel:active {
+  cursor: grabbing;
+}
+
+.regions-carousel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.region-card {
+  flex: 0 0 300px;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  position: relative;
+}
+
+.region-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-blue);
+  z-index: 2;
+}
+
+.region-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.region-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+.region-card:hover .region-image img {
+  transform: scale(1.05);
+}
+
+.region-info {
+  padding: 1.5rem;
+  position: relative;
+  min-height: 120px;
+  background: var(--white);
+}
+
+.region-name {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.region-description {
+  font-size: 0.875rem;
+  font-family: var(--font-family-base);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.region-label {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--light-gray);
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Controles del carrusel - Estilo Estonia */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress-indicator {
+  flex: 1;
+  max-width: 300px;
+  margin-right: 2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--border-light);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-blue);
+  border-radius: 1px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--white);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--primary-blue);
+  color: var(--white);
+  border-color: var(--primary-blue);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-btn:disabled:hover {
+  background: var(--white);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive para el carrusel */
+@media (max-width: 1024px) {
+  .regions-carousel {
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .region-card {
+    flex: 0 0 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .regions-title {
+    font-size: 2rem;
+  }
+  
+  .regions-description {
+    font-size: 1rem;
+  }
+  
+  .regions-header {
+    padding: 0 1rem;
+  }
+  
+  .regions-carousel {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .region-card {
+    flex: 0 0 250px;
+  }
+  
+  .region-image {
+    height: 180px;
+  }
+  
+  .region-info {
+    padding: 1.25rem;
+    min-height: 100px;
+  }
+  
+  .region-name {
+    font-size: 1.125rem;
+  }
+  
+  .region-description {
+    font-size: 0.85rem;
+  }
+  
+  .carousel-controls {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .progress-indicator {
+    max-width: 200px;
+    margin-right: 0;
+  }
+  
+  .nav-buttons {
+    gap: 1rem;
+  }
+  
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .regions-header {
+    padding: 0 0.5rem;
+  }
+  
+  .regions-carousel {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .region-card {
+    flex: 0 0 220px;
+  }
+  
+  .region-image {
+    height: 160px;
+  }
+  
+  .region-info {
+    padding: 1rem;
+    min-height: 80px;
+  }
+  
+  .region-name {
+    font-size: 1rem;
+  }
+  
+  .region-description {
+    font-size: 0.8rem;
+  }
+  
+  .region-label {
+    font-size: 0.75rem;
+  }
+  
+  .carousel-controls {
+    margin-top: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .progress-indicator {
+    max-width: 150px;
+  }
+  
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Festival Section - Estilo Estonia */
+.festival-section {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.festival-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.festival-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.festival-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.festival-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 4rem 0;
+}
+
+.festival-text-content {
+  max-width: 600px;
+  margin-left: 0;
+}
+
+.festival-title {
+  font-size: 3rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.festival-description {
+  font-size: 1.25rem;
+  font-family: var(--font-family-base);
+  color: var(--white);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.festival-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--white);
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.feature-item i {
+  font-size: 1.5rem;
+  color: var(--bolivia-yellow);
+  width: 24px;
+  text-align: center;
+}
+
+.festival-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.festival-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+  min-width: 180px;
+}
+
+.festival-btn.primary {
+  background: var(--bolivia-yellow);
+  color: var(--text-primary);
+  border-color: var(--bolivia-yellow);
+}
+
+.festival-btn.primary:hover {
+  background: var(--bolivia-red);
+  color: var(--white);
+  border-color: var(--bolivia-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.festival-btn.secondary {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.festival-btn.secondary:hover {
+  background: var(--white);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Secciones Generales */
+.featured-places,
+.experiences-section,
+.events-section {
+  padding: 4rem 0;
+}
+
+.featured-places {
+  background: var(--bg-primary);
+}
+
+.experiences-section {
+  background: var(--bg-secondary);
+}
+
+.events-section {
+  background: var(--bg-primary);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-regular);
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.01em;
+}
+
+/* Grid de Lugares */
+.places-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.place-card {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.place-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--category-cultura);
+}
+
+.place-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.place-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.place-card:hover .place-image img {
+  transform: scale(1.05);
+}
+
+.place-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 50px;
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.place-content {
+  padding: 1.5rem;
+}
+
+.place-name {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.place-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.place-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.place-location,
+.place-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.place-rating i {
+  color: var(--warning-orange);
+}
+
+/* Grid de Experiencias */
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.experience-card {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.experience-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--category-cultura);
+}
+
+.experience-image {
+  height: 180px;
+  overflow: hidden;
+}
+
+.experience-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.experience-card:hover .experience-image img {
+  transform: scale(1.05);
+}
+
+.experience-content {
+  padding: 1.5rem;
+}
+
+.experience-title {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.experience-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.experience-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.experience-duration,
+.experience-price {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.experience-price {
+  color: var(--category-cultura);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Grid de Eventos */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.event-card {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--category-cultura);
+}
+
+.event-image {
+  height: 180px;
+  overflow: hidden;
+}
+
+.event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image img {
+  transform: scale(1.05);
+}
+
+.event-content {
+  padding: 1.5rem;
+}
+
+.event-title {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.event-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.event-date,
+.event-location {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* Música Section - Estilo Estonia Pro */
+.music-section {
+  padding: 6rem 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.music-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+}
+
+.music-image-container {
+  position: relative;
+  height: 600px;
+  border-radius: 0 24px 24px 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.music-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.music-image-container:hover .music-image {
+  transform: scale(1.02);
+}
+
+.image-attribution {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.photo-author {
+  font-size: 0.875rem;
+  color: var(--white);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.photo-logo {
+  width: 48px;
+  height: 48px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.logo-text {
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+}
+
+.music-content {
+  padding: 2rem 0;
+  max-width: 500px;
+}
+
+.music-title {
+  font-size: 4rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.music-subtitle {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0 0 2.5rem 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.music-text {
+  line-height: 1.7;
+}
+
+.music-paragraph {
+  font-size: 1.125rem;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.music-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.music-paragraph strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.music-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.action-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.scroll-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.scroll-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Responsive para Música Section */
+@media (max-width: 1024px) {
+  .music-container {
+    gap: 3rem;
+    padding: 0 1.5rem;
+  }
+  
+  .music-image-container {
+    height: 500px;
+  }
+  
+  .music-title {
+    font-size: 3.5rem;
+  }
+  
+  .music-subtitle {
+    font-size: 1.375rem;
+  }
+  
+  .music-actions {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .action-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .music-section {
+    padding: 4rem 0;
+  }
+  
+  .music-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .music-image-container {
+    height: 400px;
+    border-radius: 16px;
+    order: 1;
+  }
+  
+  .music-content {
+    order: 2;
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .music-title {
+    font-size: 3rem;
+    text-align: center;
+  }
+  
+  .music-subtitle {
+    font-size: 1.25rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .music-text {
+    text-align: left;
+  }
+  
+  .music-paragraph {
+    font-size: 1rem;
+  }
+  
+  .music-actions {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    order: 3;
+  }
+  
+  .action-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .music-section {
+    padding: 3rem 0;
+  }
+  
+  .music-container {
+    padding: 0 0.5rem;
+  }
+  
+  .music-image-container {
+    height: 300px;
+    border-radius: 12px;
+  }
+  
+  .music-title {
+    font-size: 2.5rem;
+  }
+  
+  .music-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .music-paragraph {
+    font-size: 0.95rem;
+  }
+  
+  .image-attribution {
+    bottom: 1rem;
+    left: 1rem;
+  }
+  
+  .photo-author {
+    font-size: 0.75rem;
+  }
+  
+  .photo-logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-size: 0.875rem;
+  }
+  
+  .music-actions {
+    gap: 0.75rem;
+  }
+  
+  .action-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Culturas Regionales Section - Estilo Estonia Pro */
+.regional-cultures-section {
+  padding: 6rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.cultures-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.cultures-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cultures-title {
+  font-size: 3rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.cultures-description {
+  font-size: 1.125rem;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: var(--font-weight-regular);
+}
+
+.cultures-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.cultures-carousel {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 1rem 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.cultures-carousel:active {
+  cursor: grabbing;
+}
+
+.cultures-carousel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.culture-card {
+  flex: 0 0 280px;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.culture-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-blue);
+}
+
+.culture-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.culture-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.culture-card:hover .culture-image img {
+  transform: scale(1.05);
+}
+
+.culture-info {
+  padding: 1.5rem;
+  background: var(--white);
+}
+
+.culture-name {
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Indicador de progreso */
+.carousel-progress {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.progress-line {
+  width: 200px;
+  height: 2px;
+  background: var(--border-color);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--text-primary);
+  border-radius: 1px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+/* Navegación del carrusel */
+.carousel-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--text-muted);
+  background: var(--white);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.nav-arrow:hover:not(:disabled) {
+  background: var(--text-primary);
+  color: var(--white);
+  border-color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-arrow:disabled:hover {
+  background: var(--white);
+  color: var(--text-muted);
+  border-color: var(--text-muted);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Botones de acción flotantes */
+.floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.settings-btn {
+  background: var(--text-muted);
+  color: var(--white);
+}
+
+.settings-btn:hover {
+  background: var(--text-primary);
+}
+
+.scroll-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.scroll-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Responsive para Culturas Regionales */
+@media (max-width: 1024px) {
+  .cultures-container {
+    padding: 0 1.5rem;
+  }
+  
+  .cultures-title {
+    font-size: 2.5rem;
+  }
+  
+  .cultures-description {
+    font-size: 1rem;
+  }
+  
+  .culture-card {
+    flex: 0 0 250px;
+  }
+  
+  .culture-image {
+    height: 180px;
+  }
+  
+  .floating-actions {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .floating-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .regional-cultures-section {
+    padding: 4rem 0;
+  }
+  
+  .cultures-container {
+    padding: 0 1rem;
+  }
+  
+  .cultures-header {
+    margin-bottom: 3rem;
+  }
+  
+  .cultures-title {
+    font-size: 2rem;
+  }
+  
+  .cultures-description {
+    font-size: 0.95rem;
+  }
+  
+  .cultures-carousel {
+    gap: 1rem;
+  }
+  
+  .culture-card {
+    flex: 0 0 220px;
+  }
+  
+  .culture-image {
+    height: 160px;
+  }
+  
+  .culture-info {
+    padding: 1.25rem;
+  }
+  
+  .culture-name {
+    font-size: 0.9rem;
+  }
+  
+  .progress-line {
+    width: 150px;
+  }
+  
+  .nav-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+  
+  .floating-actions {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .floating-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .regional-cultures-section {
+    padding: 3rem 0;
+  }
+  
+  .cultures-container {
+    padding: 0 0.5rem;
+  }
+  
+  .cultures-header {
+    margin-bottom: 2rem;
+  }
+  
+  .cultures-title {
+    font-size: 1.75rem;
+  }
+  
+  .cultures-description {
+    font-size: 0.9rem;
+  }
+  
+  .cultures-carousel {
+    gap: 0.75rem;
+  }
+  
+  .culture-card {
+    flex: 0 0 200px;
+  }
+  
+  .culture-image {
+    height: 140px;
+  }
+  
+  .culture-info {
+    padding: 1rem;
+  }
+  
+  .culture-name {
+    font-size: 0.85rem;
+  }
+  
+  .progress-line {
+    width: 120px;
+  }
+  
+  .nav-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+  
+  .floating-actions {
+    gap: 0.75rem;
+  }
+  
+  .floating-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Gastronomía Section - Estilo Estonia Pro */
+.food-section {
+  padding: 6rem 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.food-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+}
+
+.food-content {
+  padding: 2rem 0;
+  max-width: 500px;
+}
+
+.food-title {
+  font-size: 4rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.food-subtitle {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0 0 2.5rem 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.food-text {
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.food-paragraph {
+  font-size: 1rem;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.food-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.food-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-blue);
+  background: var(--white);
+  border: 2px solid var(--primary-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-bottom: 2rem;
+}
+
+.food-cta-btn:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.food-logo {
+  width: 48px;
+  height: 48px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.food-logo .logo-text {
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+}
+
+.food-image-container {
+  position: relative;
+}
+
+.food-image {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 20px 0 0 20px;
+  box-shadow: var(--shadow-xl);
+}
+
+.food-attribution {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.food-attribution .photo-author {
+  font-size: 0.875rem;
+  color: var(--white);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.food-floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.food-floating-actions .floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.food-floating-actions .floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.food-floating-actions .comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.food-floating-actions .comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.food-floating-actions .share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.food-floating-actions .share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.food-floating-actions .scroll-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.food-floating-actions .scroll-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Artículos Recomendados Section - Estilo Estonia Pro */
+.recommended-articles-section {
+  padding: 6rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.articles-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.articles-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.articles-title {
+  font-size: 3rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.articles-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.articles-carousel {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 1rem 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.articles-carousel:active {
+  cursor: grabbing;
+}
+
+.articles-carousel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.article-card {
+  flex: 0 0 300px;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-blue);
+}
+
+.article-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.article-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.article-card:hover .article-image img {
+  transform: scale(1.05);
+}
+
+.article-content {
+  padding: 1.5rem;
+  background: var(--white);
+}
+
+.article-title {
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.articles-progress {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.articles-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.articles-floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.articles-floating-actions .floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.articles-floating-actions .floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.articles-floating-actions .comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.articles-floating-actions .comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.articles-floating-actions .share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.articles-floating-actions .share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Descubrimientos Section - Estilo Estonia Pro */
+.discoveries-section {
+  padding: 6rem 0;
+  /* background: var(--bg-secondary); */
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.discoveries-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.discoveries-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.discoveries-title {
+  font-size: 3rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.discoveries-subtitle {
+  font-size: 1.125rem;
+  font-family: var(--font-family-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: var(--font-weight-regular);
+}
+
+.discoveries-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.discoveries-carousel {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 1rem 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.discoveries-carousel:active {
+  cursor: grabbing;
+}
+
+.discoveries-carousel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.discovery-card {
+  flex: 0 0 300px;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.discovery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-blue);
+}
+
+.discovery-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.discovery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.discovery-card:hover .discovery-image img {
+  transform: scale(1.05);
+}
+
+.discovery-content {
+  padding: 1.5rem;
+  background: var(--white);
+}
+
+.discovery-title {
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.discoveries-progress {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.discoveries-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.discoveries-floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.discoveries-floating-actions .floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.discoveries-floating-actions .floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.discoveries-floating-actions .comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.discoveries-floating-actions .comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.discoveries-floating-actions .share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.discoveries-floating-actions .share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Museos Section - Estilo Estonia Pro */
+.museums-section {
+  padding: 6rem 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.museums-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.museums-image-container {
+  position: relative;
+  height: 600px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.museums-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.museums-image-container:hover .museums-image {
+  transform: scale(1.02);
+}
+
+.museums-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(124, 58, 237, 0.8) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.museums-content {
+  width: 100%;
+}
+
+.museums-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  color: var(--white);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.museums-description {
+  font-size: 1rem;
+  font-family: var(--font-family-base);
+  color: var(--white);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  font-weight: var(--font-weight-regular);
+  opacity: 0.95;
+}
+
+.museums-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-blue);
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-bottom: 2rem;
+}
+
+.museums-cta-btn:hover {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.museums-navigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-line {
+  width: 100px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+}
+
+.museums-navigation .nav-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.museums-navigation .nav-arrow:hover {
+  background: var(--white);
+  color: var(--primary-blue);
+  border-color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.museums-attribution {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 3;
+}
+
+.museums-attribution .photo-author {
+  font-size: 0.875rem;
+  color: var(--white);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.museums-floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.museums-floating-actions .floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.museums-floating-actions .floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.museums-floating-actions .comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.museums-floating-actions .comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.museums-floating-actions .share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.museums-floating-actions .share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.museums-floating-actions .scroll-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.museums-floating-actions .scroll-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Tesoros UNESCO Section - Estilo Estonia Pro */
+.unesco-section {
+  padding: 6rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.unesco-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+}
+
+.video-container {
+  position: relative;
+}
+
+.video-player {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.video-player:hover {
+  transform: scale(1.02);
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+}
+
+.play-button:hover {
+  background: var(--primary-blue-dark);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.play-button i {
+  color: var(--white);
+  font-size: 1.5rem;
+  margin-left: 4px; /* Ajuste visual para centrar el triángulo */
+}
+
+.video-attribution {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 2;
+}
+
+.video-author {
+  font-size: 0.875rem;
+  color: var(--white);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.unesco-content {
+  padding: 2rem 0;
+  max-width: 500px;
+}
+
+.unesco-title {
+  font-size: 3.5rem;
+  font-weight: var(--font-weight-light);
+  font-family: var(--font-family-base);
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.unesco-subtitle {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin: 0 0 2rem 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.unesco-text {
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.unesco-paragraph {
+  font-size: 1rem;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.unesco-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.unesco-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary-blue);
+  background: var(--white);
+  border: 2px solid var(--primary-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.unesco-cta-btn:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Botones de acción flotantes UNESCO */
+.unesco-floating-actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 3;
+}
+
+.unesco-floating-actions .floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.unesco-floating-actions .floating-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.unesco-floating-actions .comment-btn {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.unesco-floating-actions .comment-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.unesco-floating-actions .share-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.unesco-floating-actions .share-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.unesco-floating-actions .scroll-btn {
+  background: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.unesco-floating-actions .scroll-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Logo UNESCO */
+.unesco-logo {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  width: 48px;
+  height: 48px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  z-index: 2;
+}
+
+.unesco-logo .logo-text {
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-base);
+}
+
+/* Responsive para UNESCO Section */
+@media (max-width: 1024px) {
+  .unesco-container {
+    gap: 3rem;
+    padding: 0 1.5rem;
+  }
+  
+  .video-thumbnail {
+    height: 400px;
+  }
+  
+  .play-button {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .play-button i {
+    font-size: 1.25rem;
+  }
+  
+  .unesco-title {
+    font-size: 3rem;
+  }
+  
+  .unesco-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .unesco-floating-actions {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .unesco-floating-actions .floating-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .unesco-section {
+    padding: 4rem 0;
+  }
+  
+  .unesco-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .video-thumbnail {
+    height: 300px;
+  }
+  
+  .play-button {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .play-button i {
+    font-size: 1rem;
+  }
+  
+  .unesco-content {
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .unesco-title {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  
+  .unesco-subtitle {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .unesco-text {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+  
+  .unesco-paragraph {
+    font-size: 0.95rem;
+  }
+  
+  .unesco-cta-btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .unesco-floating-actions {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .unesco-floating-actions .floating-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+  
+  .unesco-logo {
+    position: static;
+    margin: 2rem auto 0;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .unesco-logo .logo-text {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .unesco-section {
+    padding: 3rem 0;
+  }
+  
+  .unesco-container {
+    padding: 0 0.5rem;
+  }
+  
+  .video-thumbnail {
+    height: 250px;
+  }
+  
+  .play-button {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .play-button i {
+    font-size: 0.875rem;
+  }
+  
+  .unesco-title {
+    font-size: 2rem;
+  }
+  
+  .unesco-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .unesco-paragraph {
+    font-size: 0.9rem;
+  }
+  
+  .unesco-cta-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.75rem;
+  }
+  
+  .unesco-floating-actions {
+    gap: 0.75rem;
+  }
+  
+  .unesco-floating-actions .floating-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  
+  .unesco-logo {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .unesco-logo .logo-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 4rem 0;
+  background: var(--category-cultura);
+  color: var(--white);
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-regular);
+  margin-bottom: 1rem;
+}
+
+.cta-subtitle {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  letter-spacing: 0.025em;
+  min-width: 160px;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--category-cultura);
+  border-color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--light-gray);
+  color: var(--category-cultura);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.btn-secondary:hover {
+  background: var(--white);
+  color: var(--category-cultura);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cultura-hero-section {
+    min-height: 70vh;
+  }
+  
+  .hero-text-overlay {
+    padding: 0;
+  }
+  
+  .text-container {
+    padding: 2rem 2.5rem 2rem 2.5rem;
+    width: 100%;
+    min-height: 25vh;
+  }
+  
+  .hero-main-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .hero-description {
+    font-size: 0.95rem;
+    max-width: 600px;
+  }
+  
+  .cultural-info-section {
+    padding: 3rem 0;
+  }
+  
+  .cultural-content {
+    padding: 0 1rem;
+  }
+  
+  .author-info {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .author-line {
+    max-width: 60px;
+  }
+  
+  .cultural-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .cultural-text p {
+    font-size: 1rem;
+  }
+  
+  .history-section {
+    min-height: 60vh;
+  }
+  
+  .history-content-box {
+    max-width: 400px;
+    margin: 0 1rem 3rem auto;
+    padding: 2rem;
+  }
+  
+  .history-title {
+    font-size: 1.75rem;
+  }
+  
+  .history-description {
+    font-size: 0.95rem;
+  }
+  
+  .photo-credit {
+    bottom: 1rem;
+    left: 1rem;
+  }
+  
+  .festival-section {
+    min-height: 60vh;
+  }
+  
+  .festival-content {
+    padding: 3rem 0;
+  }
+  
+  .festival-text-content {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .festival-title {
+    font-size: 2.5rem;
+  }
+  
+  .festival-description {
+    font-size: 1.125rem;
+  }
+  
+  .festival-features {
+    gap: 0.75rem;
+  }
+  
+  .feature-item {
+    font-size: 1rem;
+  }
+  
+  .festival-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .festival-btn {
+    min-width: 160px;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  .filters-grid {
+    gap: 0.75rem;
+  }
+  
+  .filter-pill {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8rem;
+  }
+  
+  .places-grid,
+  .experiences-grid,
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .cta-title {
+    font-size: 2rem;
+  }
+  
+  .cta-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cultura-hero-section {
+    min-height: 60vh;
+  }
+  
+  .hero-text-overlay {
+    padding: 0;
+  }
+  
+  .text-container {
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    width: 100%;
+    min-height: 20vh;
+  }
+  
+  .hero-main-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-description {
+    font-size: 0.9rem;
+    max-width: 500px;
+  }
+  
+  .photo-credit {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
+  
+  .hero-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 0.75rem;
+  }
+  
+  .cultural-info-section {
+    padding: 2rem 0;
+  }
+  
+  .cultural-content {
+    padding: 0 0.5rem;
+  }
+  
+  .author-info {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .author-line {
+    display: none;
+  }
+  
+  .cultural-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cultural-text p {
+    font-size: 0.95rem;
+  }
+  
+  .history-section {
+    min-height: 50vh;
+  }
+  
+  .history-content-box {
+    max-width: 100%;
+    margin: 0 0.5rem 2rem;
+    padding: 1.5rem;
+  }
+  
+  .history-title {
+    font-size: 1.5rem;
+  }
+  
+  .history-description {
+    font-size: 0.9rem;
+  }
+  
+  .history-cta-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .photo-credit {
+    bottom: 0.5rem;
+    left: 0.5rem;
+  }
+  
+  .photo-author {
+    font-size: 0.75rem;
+  }
+  
+  .photo-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo-text {
+    font-size: 0.75rem;
+  }
+  
+  .festival-section {
+    min-height: 50vh;
+  }
+  
+  .festival-content {
+    padding: 2rem 0;
+  }
+  
+  .festival-text-content {
+    padding: 0 0.5rem;
+  }
+  
+  .festival-title {
+    font-size: 2rem;
+  }
+  
+  .festival-description {
+    font-size: 1rem;
+  }
+  
+  .festival-features {
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .feature-item {
+    font-size: 0.95rem;
+  }
+  
+  .feature-item i {
+    font-size: 1.25rem;
+  }
+  
+  .festival-actions {
+    gap: 0.75rem;
+  }
+  
+  .festival-btn {
+    min-width: 140px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+</style>

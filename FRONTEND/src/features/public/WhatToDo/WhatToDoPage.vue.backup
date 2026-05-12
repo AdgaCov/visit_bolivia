@@ -1,0 +1,437 @@
+<template>
+  <div class="what-to-do">
+    <!-- Hero section -->
+    <section class="hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4">
+            <h1 class="hero-title">Bolivia te da el tiempo y el espacio…</h1>
+            <p class="hero-subtitle">Para sumergirte en nuestros paisajes, historia, gastronomía y comunidad local. Tiempo para experiencias memorables y sostenibles.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="hero-media">
+              <div class="hero-media-inner" style="background-image: url('/images/huatajata.jpg')"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intro section -->
+    <section class="intro section">
+      <div class="container">
+        <div class="intro-content">
+          <h2 class="intro-title">Somos una nación con una gran historia que contar</h2>
+          <p class="intro-subtitle">Bolivia ha estado encrucijada de culturas por siglos.</p>
+          <div class="intro-text">
+            <p>Durante siglos, hemos sido parte de las rutas comerciales andinas. Caminos que conectaban el Pacífico con el Atlántico, transportando bienes y personas de norte a sur y viceversa. Ahora, Bolivia se encuentra en el corazón de Sudamérica, combinando lo mejor de los Andes, la Amazonía y los valles interandinos.</p>
+            <p>Bolivia es un lugar que te ayuda a entender tu lugar en el mundo. Un lugar que, para muchas personas, no está en su radar. Pero es hora de que lo esté.</p>
+            <p>Déjanos mostrarte por qué.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid de actividades destacadas -->
+    <section class="highlights section light">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="section-title">A un paso de la aventura</h3>
+          <router-link to="/lugares" class="btn-read">Ver más</router-link>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card-large">
+              <div class="card-body">
+                <h4>Pesca en Bolivia — dónde, cuándo y cómo</h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="card-pill">
+                  <span>Todo lo que necesitas para hacer senderismo</span>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="card-pill">
+                  <span>3 razones para visitar Bolivia en temporada de lluvias</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorías destacadas -->
+    <section class="categories section">
+      <div class="container">
+        <h3 class="section-title mb-4">Qué hacer por categoría</h3>
+        <div class="row g-4">
+          <div class="col-6 col-md-3" v-for="cat in categories" :key="cat.slug">
+            <router-link class="cat-card" :to="cat.to">
+              <div class="cat-media" :style="{ backgroundImage: `url('${cat.image}')` }"></div>
+              <div class="cat-name">{{ cat.name }}</div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Viaje sostenible -->
+    <section class="sustainable section">
+      <div class="container">
+        <h3 class="section-title">Viajar de forma sostenible es tradición</h3>
+        <p class="section-text">Explora paisajes únicos y comunidades que prosperan con prácticas responsables. Aprende a viajar de manera consciente y deja una huella positiva.</p>
+        <div class="text-end">
+          <router-link to="/planificacion" class="btn-read">Leer más</router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Itinerarios recomendados -->
+    <section class="itineraries section light">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="section-title">Itinerarios recomendados</h3>
+          <router-link to="/planificacion" class="btn-read">Ver todos</router-link>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4" v-for="it in itineraries" :key="it.slug">
+            <router-link class="itin-card" :to="it.to">
+              <div class="itin-media" :style="{ backgroundImage: `url('${it.image}')` }"></div>
+              <div class="itin-body">
+                <h4 class="itin-title">{{ it.title }}</h4>
+                <p class="itin-text">{{ it.text }}</p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gastronomía -->
+    <section class="food section light">
+      <div class="container">
+        <h3 class="section-title">La gastronomía boliviana te sorprende</h3>
+        <p class="section-text">Una mezcla de tradiciones y creatividad. Descubre sabores locales y productores de pequeña escala.</p>
+        <div class="row g-4 mt-2">
+          <div class="col-md-6">
+            <div class="card-large">
+              <div class="card-body">
+                <h4>Introducción a la cocina boliviana</h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="card-pill"><span>Come local: productores y pequeños mercados</span></div>
+              </div>
+              <div class="col-12">
+                <div class="card-pill"><span>Verde en los mejores restaurantes</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq section">
+      <div class="container">
+        <h3 class="section-title mb-3">Preguntas frecuentes</h3>
+        <div class="accordion">
+          <details v-for="q in faqs" :key="q.q">
+            <summary>{{ q.q }}</summary>
+            <p class="mt-2">{{ q.a }}</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="cta section light">
+      <div class="container text-center">
+        <h3 class="section-title">¿Listo para planificar tu viaje?</h3>
+        <p class="section-text">Explora lugares, crea tu lista de favoritos y descubre rutas únicas.</p>
+        <router-link to="/lugares" class="btn-read">Explorar lugares</router-link>
+      </div>
+    </section>
+  </div>
+  
+</template>
+
+<script>
+export default {
+  name: 'WhatToDoPage',
+  data() {
+    return {
+      categories: [
+        { name: 'Cultura', slug: 'cultura', to: '/lugares/categoria/cultura', image: '/images/huatajata.jpg' },
+        { name: 'Aventura', slug: 'aventura', to: '/lugares/categoria/aventura', image: '/images/huatajata.jpg' },
+        { name: 'Naturaleza', slug: 'naturaleza', to: '/lugares/categoria/naturaleza', image: '/images/huatajata.jpg' },
+        { name: 'Bienestar', slug: 'bienestar', to: '/lugares/categoria/bienestar', image: '/images/huatajata.jpg' }
+      ],
+      itineraries: [
+        { title: '3 días en La Paz', slug: 'la-paz-3-dias', to: '/planificacion/itinerarios/la-paz-3-dias', image: '/images/huatajata.jpg', text: 'Altiplano, cultura y miradores.' },
+        { title: 'Selva y aventura', slug: 'selva-aventura', to: '/planificacion/itinerarios/selva-aventura', image: '/images/huatajata.jpg', text: 'Ríos, fauna y caminatas.' },
+        { title: 'Salar esencial', slug: 'salar-esencial', to: '/planificacion/itinerarios/salar-esencial', image: '/images/huatajata.jpg', text: 'Lagunas, salares y estrellas.' }
+      ],
+      faqs: [
+        { q: '¿Cuál es la mejor época para visitar?', a: 'Depende de la región: Andes (abril–nov), Amazonía (may–sep), Salar (jun–oct).' },
+        { q: '¿Necesito guía para rutas de montaña?', a: 'Recomendado para seguridad y acceso local, especialmente en rutas de altura.' },
+        { q: '¿Cómo viajar de forma sostenible?', a: 'Usa operadores locales, respeta senderos, reduce plásticos y apoya productos regionales.' }
+      ]
+    }
+  }
+}
+</script>
+
+<style scoped>
+.what-to-do { 
+  background: var(--white); 
+  color: var(--text-primary);
+  font-family: var(--font-family-base) !important;
+}
+
+/* Forzar fuente en todos los elementos */
+.what-to-do * {
+  font-family: var(--font-family-base) !important;
+}
+
+.what-to-do h1,
+.what-to-do h2,
+.what-to-do h3,
+.what-to-do h4,
+.what-to-do h5,
+.what-to-do h6 {
+  font-family: var(--font-family-base) !important;
+}
+
+.what-to-do p,
+.what-to-do span,
+.what-to-do div {
+  font-family: var(--font-family-base) !important;
+}
+.section { 
+  padding: 4rem 0;
+  font-family: var(--font-family-base) !important;
+}
+.section.light { background: var(--bg-secondary); }
+.section-title { 
+  font-size: 2rem !important; 
+  font-weight: var(--font-weight-semibold) !important; 
+  margin-bottom: 1rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-family: var(--font-family-base) !important;
+}
+.section-text { 
+  color: var(--text-secondary) !important; 
+  max-width: 820px;
+  font-size: 1.125rem !important;
+  line-height: 1.6;
+  font-weight: var(--font-weight-regular) !important;
+  font-family: var(--font-family-base) !important;
+}
+
+/* Estilos para la sección intro - estilo referencia */
+.intro {
+  /* background: var(--bg-secondary); */
+  padding: 6rem 0;
+}
+
+.intro-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.intro-title {
+  font-size: 3rem !important;
+  font-weight: var(--font-weight-light) !important;
+  color: var(--text-primary) !important;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  font-family: var(--font-family-base) !important;
+}
+
+.intro-subtitle {
+  font-size: 1.5rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--text-primary) !important;
+  line-height: 1.3;
+  margin-bottom: 2rem;
+  font-family: var(--font-family-base) !important;
+}
+
+.intro-text {
+  font-size: 1.125rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.6;
+  font-family: var(--font-family-base) !important;
+}
+
+.intro-text p {
+  margin-bottom: 1.5rem;
+  font-family: var(--font-family-base) !important;
+}
+
+.intro-text p:last-child {
+  margin-bottom: 0;
+}
+/* Hero rediseñado estilo referencia, conservando paleta */
+.hero { background: var(--bg-secondary); padding: 6rem 0; position: relative; overflow: hidden; border-bottom: 1px solid var(--border-light); min-height: 600px; }
+.hero-title { 
+  font-size: 3.25rem !important; 
+  font-weight: var(--font-weight-light) !important; 
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-family: var(--font-family-base) !important;
+}
+.hero-subtitle { 
+  color: var(--text-secondary) !important; 
+  margin-top: 1rem; 
+  font-size: 1.125rem !important; 
+  max-width: 640px;
+  font-family: var(--font-family-base) !important;
+}
+.hero-media { position: absolute; top: 0; right: 0; width: 60%; height: 100%; border-radius: 0; clip-path: ellipse(75% 95% at 100% 75%); overflow: hidden; }
+.hero-media-inner { position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; transform-origin: center right; animation: heroZoom 18s ease-in-out infinite alternate; }
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.19); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-media-inner { animation: none; }
+}
+.card-large { background: var(--white); border-radius: 24px; min-height: 260px; box-shadow: var(--shadow-md); overflow: hidden; }
+.card-large .card-body { padding: 1.5rem; }
+.card-pill { background: var(--white); border-radius: 24px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm); }
+.cat-card { display: block; text-decoration: none; color: inherit; }
+.cat-media { border-radius: 16px; height: 120px; background-size: cover; background-position: center; box-shadow: var(--shadow-sm); }
+.cat-name { margin-top: .5rem; font-weight: var(--font-weight-semibold); text-align: center; }
+.itin-card { display: block; text-decoration: none; color: inherit; background: var(--white); border-radius: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.itin-media { height: 160px; background-size: cover; background-position: center; }
+.itin-body { padding: 1rem; }
+.itin-title { font-size: 1.125rem; font-weight: var(--font-weight-semibold); margin-bottom: .25rem; }
+.itin-text { color: var(--text-secondary); }
+.btn-read { 
+  display: inline-block; 
+  background: var(--button-primary); 
+  color: var(--white); 
+  padding: .5rem .9rem; 
+  border-radius: 999px; 
+  text-decoration: none; 
+  font-weight: var(--font-weight-semibold) !important;
+  font-family: var(--font-family-base) !important;
+  font-size: 0.9rem !important;
+}
+.btn-read:hover { background: var(--button-primary-hover); }
+
+/* Estilos específicos para elementos que se ven diferentes */
+.card-large h4,
+.card-pill span,
+.cat-name,
+.itin-title,
+.itin-text {
+  font-family: var(--font-family-base) !important;
+}
+
+.card-large h4 {
+  font-size: 1.25rem !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: var(--text-primary) !important;
+}
+
+.card-pill span {
+  font-size: 1rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--text-primary) !important;
+}
+
+.itin-title {
+  font-size: 1.125rem !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: var(--text-primary) !important;
+}
+
+.itin-text {
+  font-size: 0.95rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Tablet */
+@media (max-width: 991.98px) {
+  .hero-media { 
+    position: relative; 
+    clip-path: none; 
+    border-radius: 16px; 
+    margin-top: 1.25rem; 
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 767.98px) {
+  .hero { padding: 4rem 0; min-height: 500px; }
+  .hero-title { 
+    font-size: 2rem; 
+    font-weight: var(--font-weight-light);
+    letter-spacing: -0.02em;
+  }
+  .section-title { 
+    font-size: 1.75rem; 
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .section-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hero-media { 
+    position: relative; 
+    height: 100%; 
+    min-height: 300px;
+    clip-path: none; 
+    border-radius: 16px; 
+    margin-top: 1.25rem; 
+    width: 100%;
+  }
+  
+  /* Responsive para intro */
+  .intro {
+    padding: 4rem 0;
+  }
+  
+  .intro-content {
+    padding: 0 1rem;
+  }
+  
+  .intro-title {
+    font-size: 2.25rem !important;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  
+  .intro-subtitle {
+    font-size: 1.25rem !important;
+    margin-bottom: 1.5rem;
+  }
+  
+  .intro-text {
+    font-size: 1rem !important;
+  }
+}
+</style>
+
+

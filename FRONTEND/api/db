@@ -1,0 +1,442 @@
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role_id int,
+    -- role ENUM('admin', 'editor','user'),
+    status TINYINT DEFAULT 1,
+    plan_id int,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_rol FOREIGN KEY(role_id) REFERENCES roles(id),
+    CONSTRAINT fk_plan_id FOREIGN KEY(plan_id) REFERENCES plans(id)
+);
+
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `status` tinyint(4) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+)
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,      -- Ej: 'admin', 'editor', 'user', 'super_admin'
+    description VARCHAR(255),              -- Opcional: explicación del rol
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE departments(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(15),
+    description varchar(100),
+    image_url TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+-- ==========================
+-- CATEGORIES (ej: Cultura, Historia, Aventura, Naturaleza)
+-- ==========================
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description text,
+    image_url VARCHAR(255)
+);
+
+
+
+-- Relación N:M entre places y subcategories
+CREATE TABLE location_subcategories (
+    location_id INT,
+    subcategory_id INT,
+    PRIMARY KEY (location_id, subcategory_id),
+    CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
+    CONSTRAINT fk_subcategory FOREIGN KEY (subcategory_id) REFERENCES subcategories(id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+CREATE TABLE routes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    origin_type ENUM('city','place') NOT NULL,
+    origin_id INT NOT NULL,
+    destination_type ENUM('city','place') NOT NULL,
+    destination_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- ==========================
+-- ROUTE COORDINATES (para dibujar la línea precisa en el mapa)
+-- ==========================
+
+
+CREATE TABLE route_steps (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    route_id INT NOT NULL,
+    step_order INT NOT NULL, -- orden del paso
+    lat DECIMAL(9,6),
+    lng DECIMAL(9,6),
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    transport_mode ENUM('bus','car','boat','walk','train') DEFAULT 'walk',
+    FOREIGN KEY (route_id) REFERENCES routes(id)
+);
+
+
+
+
+
+
+
+
+
+CREATE TABLE subcategories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,       -- Ej: Música, Tradiciones, Gastronomía
+    description TEXT, --n resumen o explicación de la subcategoría.
+    image_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    subtitle VARCHAR(255) DEFAULT NULL,
+    description TEXT,
+    content LONGTEXT,                  -- Contenido largo del artículo
+    type ENUM('custom','place','event','restaurant','accommodation') DEFAULT 'custom',
+    author VARCHAR(150),               -- Nombre del autor  
+    media_url VARCHAR(255),            -- URL de video opcional
+    template_id TINYINT DEFAULT 1,     -- Identificador del diseño / layout del artículo
+    page_section VARCHAR(50),
+    link VARCHAR(255) DEFAULT NULL,    -- Enlace interno o externo
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT DEFAULT NULL,              -- ⭐ NUEVO: ID del artículo padre
+    title VARCHAR(255) NOT NULL,
+    subtitle VARCHAR(255) DEFAULT NULL,
+    description TEXT,
+    content LONGTEXT,
+    type ENUM('custom','place','event','restaurant','accommodation') DEFAULT 'custom',
+    author VARCHAR(150),
+    media_url VARCHAR(255),
+    template_id TINYINT DEFAULT 1,
+    page_section VARCHAR(50),
+    link VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Foreign key para la relación padre-hijo
+    CONSTRAINT fk_aticles FOREIGN KEY (parent_id) REFERENCES articles(id) ON DELETE CASCADE,
+    INDEX idx_parent_id (parent_id)  -- Índice para consultas rápidas
+);
+
+CREATE TABLE article_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    article_id INT NOT NULL,           -- Relación con el artículo
+    image_url VARCHAR(500) NOT NULL,   -- URL de la imagen
+    alt_text VARCHAR(255),             -- Texto alternativo
+    is_main BOOLEAN DEFAULT FALSE,     -- Marca la imagen principal
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_article_images_article FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
+CREATE TABLE article_subcategories (
+    article_id INT NOT NULL,
+    subcategory_id INT NOT NULL,
+    PRIMARY KEY (article_id, subcategory_id),
+    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+    FOREIGN KEY (subcategory_id) REFERENCES subcategories(id) ON DELETE CASCADE
+);
+
+
+
+
+CREATE TABLE locations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    -- Usuario creador (NULL para ciudades y destinos oficiales del sistema)
+    user_id INT NULL,
+    
+    -- Información básica (común a todos los tipos)
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    latitude DECIMAL(18,15) NOT NULL,
+    longitude DECIMAL(18,15) NOT NULL,
+    address VARCHAR(255),                -- NULL para ciudades y eventos sin dirección fija
+    opening_hours VARCHAR(100),          -- NULL para ciudades, eventos, atracciones naturales
+    contact_info VARCHAR(100),           -- teléfono, email, etc. (NULL para ciudades)
+    
+    -- 🔑 TIPO DE UBICACIÓN (define la naturaleza del registro)
+    type ENUM(
+        'city',             -- Ciudad como destino turístico (ej: "La Paz", "Uyuni")
+        'restaurant',       -- Restaurante (ej: "Gustu", "Ali Pacha")
+        'accommodation',    -- Alojamiento (hotel, hostal, cabaña, etc.)
+        'event',            -- Evento turístico (festival, concierto, tour)
+        'attraction'        -- Atracción turística (iglesia, mirador, sitio arqueológico, etc.)
+    ) NOT NULL,
+    
+    -- Relación con departamento (útil para filtrar y organizar)
+    department_id INT NULL,
+    
+    -- 🏷️ Atributos específicos (usados según el tipo; NULL si no aplica)
+    badge VARCHAR(100),                    -- ej: "Gourmet", "Ecológico", "Patrimonio Cultural"
+    
+    -- Solo relevante para 'accommodation' (si no usas tabla rooms)
+    room_type VARCHAR(100),                -- tipo genérico de habitación (ej: "Doble", "Suite")
+    price_per_night DECIMAL(10,2),         -- precio base por noche
+    
+    -- Solo para 'event'
+    start_date DATETIME,                   -- fecha y hora de inicio
+    end_date DATETIME,                     -- fecha y hora de fin (puede ser NULL)
+    event_type ENUM('festival','concert','exhibition','tour','workshop','other') DEFAULT 'other',
+    capacity INT,                          -- capacidad máxima de asistentes
+    is_recurring TINYINT DEFAULT 0,        -- 1 = evento recurrente (anual, semanal, etc.)
+    
+    -- 📱 Redes sociales y enlaces externos
+    facebook VARCHAR(255),
+    instagram VARCHAR(255),
+    whatsapp VARCHAR(25),
+    link VARCHAR(255),                     -- enlace a web externa o detalle interno
+    
+    -- Fechas de auditoría
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- 🔗 Claves foráneas
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
+);
+
+-- accommodation,events,food y drink,nature and Activities,history y culture,sauna y wellnes,
+
+
+
+CREATE TABLE location_reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    location_id INT NOT NULL,
+    user_id INT,
+    rating TINYINT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+-- examen preocupacion de 8:30 a 10:15
+
+
+CREATE TABLE location_services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    location_id INT NOT NULL,
+    
+    name VARCHAR(150) NOT NULL,                  -- Service name
+    description TEXT,                            -- Detailed description
+    price DECIMAL(10,2) NULL,                    -- NULL if free
+    type VARCHAR(100),                           -- General category (e.g., "Research")
+    service_type ENUM(
+        'library',
+        'historical_archive',
+        'map_collection',
+        'conference_room',
+        'souvenir_shop',
+        'accessibility',
+        'wifi',
+        'parking',
+        'guided_tour',
+        'other'
+    ),
+    capacity INT NULL,                           -- People, items, etc.
+    is_available BOOLEAN DEFAULT TRUE,
+    image_url VARCHAR(500) NULL,                 -- Official image URL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
+    INDEX idx_location_services_location_id (location_id),
+    INDEX idx_location_services_service_type (service_type)
+);
+
+
+
+
+CREATE TABLE location_items ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    location_id INT NOT NULL, 
+    name VARCHAR(255) NOT NULL, 
+    description TEXT, 
+    type ENUM('room', 'dish', 'service', 'offer', 'other') DEFAULT 'other', 
+    price DECIMAL(10,2), 
+    review VARCHAR(30),
+    image_url VARCHAR(255), 
+    CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES locations(id) 
+);
+
+
+
+
+CREATE TABLE service ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100) NOT NULL, 
+    icon VARCHAR(100), -- opcional, si usas íconos como "fa-wifi" o "fa-fire-extinguisher" 
+    description TEXT 
+);--Como un hotel puede tener muchos servicios y un mismo servicio puede aplicarse a varios lugares, se necesita una tabla intermedia: 
+CREATE TABLE location_service ( 
+    location_id INT NOT NULL, 
+    service_id INT NOT NULL, 
+    PRIMARY KEY (location_id, service_id), 
+    FOREIGN KEY (location_id) REFERENCES location(id), 
+    FOREIGN KEY (service_id) REFERENCES service(id) 
+);
+
+CREATE TABLE location_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    location_id INT NOT NULL,
+    image_url VARCHAR(500) NOT NULL,
+    alt_text VARCHAR(255),
+    is_main BOOLEAN DEFAULT FALSE,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_location_images_location FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE
+);
+ALTER TABLE location_images
+ADD CONSTRAINT fk_location_images_location
+    FOREIGN KEY (location_id)
+    REFERENCES locations(id)
+    ON DELETE CASCADE;
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,      -- Ej: 'admin', 'editor', 'user', 'super_admin'
+    description VARCHAR(255),              -- Opcional: explicación del rol
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE location_favorites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    location_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Claves foráneas
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
+    
+    -- Garantiza que un usuario no pueda guardar el mismo lugar dos veces
+    UNIQUE KEY unique_user_location (user_id, location_id),
+    
+    -- Índices para mejorar el rendimiento
+    INDEX idx_location_favorites_user (user_id),
+    INDEX idx_location_favorites_location (location_id)
+);
+
+
+DEBEMOS ALTERAR LA TABLA USUARIOS PARA QUE SOPORTE GOOGLE
+ALTER TABLE users 
+ADD COLUMN google_id VARCHAR(255) NULL UNIQUE AFTER email;
+
+-- Índice para búsquedas rápidas
+CREATE INDEX idx_users_google_id ON users(google_id);
+
+
+
+
+CREATE TABLE plans (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0.00,  -- Precio mensual, anual o único (según tu modelo)
+  price_currency CHAR(3) DEFAULT 'BOB',       -- Opcional: si manejas múltiples monedas
+--   billing_cycle ENUM('one_time', 'monthly', 'annual') DEFAULT 'monthly',
+  max_locations INT NOT NULL DEFAULT 1,
+  max_location_images INT NOT NULL DEFAULT 3,
+  max_location_items INT NOT NULL DEFAULT 3,
+  is_active BOOLEAN DEFAULT TRUE,             -- Para activar/desactivar planes sin borrarlos
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE users 
+ADD COLUMN plan_id INT NULL AFTER status,
+ADD CONSTRAINT fk_users_plan_id 
+FOREIGN KEY (plan_id) REFERENCES plans(id)
+ON DELETE SET NULL 
+ON UPDATE CASCADE;
+
+
+
+
+
+
+CREATE TABLE `location_policies` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `location_id` INT NOT NULL,
+  
+  -- RESERVAS (útil para restaurantes, eventos, alojamientos)
+  `reservation_recommended` TINYINT(1) DEFAULT 0,        -- 1 = sí se recomienda reservar
+  `reservation_notes` VARCHAR(255) DEFAULT NULL,        -- ej: "Reservas recomendadas fines de semana"
+  `reservation_link` VARCHAR(255) DEFAULT NULL,         -- enlace a sistema de reservas (opcional)
+
+  -- CANCELACIÓN
+  `cancellation_deadline_hours` INT DEFAULT NULL,       -- ej: 24 → "Hasta 24h antes"
+  `cancellation_policy` TEXT DEFAULT NULL,              -- texto adicional si es compleja
+
+  -- HORARIOS (muy relevante en restaurantes, eventos puntuales o recurrentes)
+  `opening_hours` VARCHAR(100) DEFAULT NULL,            -- podría reemplazar el campo en `locations` si lo mueves aquí
+  `days_closed` VARCHAR(50) DEFAULT NULL,               -- ej: "Lunes", o "Ninguno"
+
+  -- FORMAS DE PAGO (crucial en restaurantes, eventos con entrada, alojamientos)
+  `accepts_cash` TINYINT(1) DEFAULT 1,
+  `accepts_credit_card` TINYINT(1) DEFAULT 0,
+  `accepts_debit_card` TINYINT(1) DEFAULT 0,
+  `accepts_bank_transfer` TINYINT(1) DEFAULT 0,
+  `accepts_digital_wallet` TINYINT(1) DEFAULT 0,        -- Yape, Mercado Pago, etc.
+  `payment_notes` VARCHAR(255) DEFAULT NULL,            -- ej: "Transferencia 24h antes del evento"
+
+  -- ESPECÍFICO PARA EVENTOS
+  `event_duration_hours` DECIMAL(5,2) DEFAULT NULL,     -- ej: 3.5 horas
+  `minimum_age` INT DEFAULT NULL,                       -- si es un evento +18, etc.
+  `dress_code` VARCHAR(100) DEFAULT NULL,               -- "Formal", "Casual", "Típico boliviano"
+
+  -- AUDITORÍA
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  -- RELACIÓN
+  FOREIGN KEY (`location_id`) REFERENCES `locations`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+
+
+
+--PRIMERO SE DEBE ELIMINAR EL CONSTRAINT
+ALTER TABLE location_items
+DROP FOREIGN KEY fk_location_id;
+
+--SE DEBE CREAR NUEVAMENTE EL CONSTRAINT PARA ELIMINAR EN CASCADA
+ALTER TABLE location_items
+ADD CONSTRAINT fk_location_id
+    FOREIGN KEY (location_id)
+    REFERENCES locations(id)
+    ON DELETE CASCADE;

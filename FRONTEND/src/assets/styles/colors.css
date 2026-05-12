@@ -1,0 +1,344 @@
+:root {
+  /* Colores base modernos y minimalistas */
+  --white: #ffffff;
+  --off-white: #f0eeee;
+  /* --off-white: #fcedc5; */
+  
+  --light-beige: #fbf3e1;
+  --light-gray: #f8f9fa;
+  --medium-gray: #e9ecef;
+  --text-primary: #2c3e50;
+  --text-secondary: #6c757d;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+
+  
+  /* Colores de acento modernos */
+  --primary-blue: #1e40af;
+  --primary-blue-light: #3b82f6;
+  --primary-blue-dark: #1e3a8a;
+  --accent-blue: #0ea5e9;
+  --success-green: #10b981;
+  --warning-orange: #f59e0b;
+  --error-red: #ef4444;
+  
+  /* Colores específicos de Bolivia */
+  --bolivia-blue: #1e40af;
+  --bolivia-green: #059669;
+  --bolivia-yellow: #eab308;
+  --bolivia-red: #dc2626;
+  --bolivia-purple: #7c3aed;
+  
+  /* Sombras y efectos */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Colores de fondo */
+  --bg-primary: var(--white);
+  --bg-secondary: var(--off-white);
+  --bg-tertiary: var(--light-beige);
+  --bg-card: var(--white);
+  /* Acento suave para secciones (lila claro estilo referencia) */
+  --section-accent: #f4eef8;
+  
+  /* Tipografía global */
+  --font-family-base: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  /* Colores de texto utilitarios */
+  --text-inverse: var(--white);
+  
+  /* Colores de componentes */
+  --card-bg: var(--bg-card);
+  --button-primary: var(--primary-blue);
+  --button-primary-hover: var(--primary-blue-dark);
+  --button-secondary: var(--white);
+  --button-secondary-hover: var(--light-gray);
+  
+  /* Colores del navbar moderno */
+  --navbar-bg: var(--white);
+  --navbar-text: var(--text-primary);
+  --navbar-text-hover: var(--primary-blue);
+  --navbar-border: var(--border-light);
+  --navbar-shadow: var(--shadow-sm);
+  
+  /* Colores del footer moderno */
+  --footer-bg: var(--bg-secondary);
+  --footer-border: var(--border-light);
+  --footer-text-primary: var(--text-primary);
+  --footer-text-secondary: var(--text-secondary);
+  --footer-text-muted: var(--text-muted);
+  --footer-link-hover: var(--primary-blue);
+  --footer-social-hover: var(--light-gray);
+  
+  /* Colores de filtros y botones */
+  --filter-active: var(--primary-blue);
+  --filter-inactive: var(--white);
+  --filter-border: var(--border-color);
+  --filter-text: var(--text-primary);
+  --filter-text-active: var(--white);
+  
+  /* Colores de categorías para el mapa */
+  --category-cultura: #8B5CF6;
+  --category-historia: #DC2626;
+  --category-aventura: #059669;
+  --category-naturaleza: #16A34A;
+  --category-gastronomia: #D97706;
+  --category-relax: #0891B2;
+  
+  /* Colores de departamentos */
+  --dept-la-paz: #1e40af;
+  --dept-cochabamba: #059669;
+  --dept-santa-cruz: #16A34A;
+  --dept-oruro: #7C3AED;
+  --dept-potosi: #DC2626;
+  --dept-tarija: #D97706;
+  --dept-beni: #0891B2;
+  --dept-pando: #059669;
+}
+
+/* Estilos base modernos */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Tipografía moderna */
+/* Tipografía movida a fonts.css */
+
+/* Botones modernos */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--button-primary);
+  color: var(--text-inverse);
+}
+
+.btn-primary:hover {
+  background-color: var(--button-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--button-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--button-secondary-hover);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Cards modernas */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-color);
+}
+
+/* Filtros estilo pill modernos */
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid var(--filter-border);
+  background: var(--filter-inactive);
+  color: var(--filter-text);
+  cursor: pointer;
+}
+
+.filter-pill:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+  transform: translateY(-1px);
+}
+
+.filter-pill.active {
+  background: var(--filter-active);
+  color: var(--filter-text-active);
+  border-color: var(--filter-active);
+}
+
+.filter-pill.active:hover {
+  background: var(--primary-blue-dark);
+}
+
+/* Inputs modernos */
+.form-control {
+  border: none;
+  border-bottom: 2px solid var(--border-color);
+  border-radius: 0;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-bottom-color: var(--primary-blue);
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+/* Navbar moderno */
+.navbar-modern {
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--navbar-border);
+  box-shadow: var(--navbar-shadow);
+}
+
+.navbar-modern .nav-link {
+  color: var(--navbar-text);
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navbar-modern .nav-link:hover {
+  color: var(--navbar-text-hover);
+}
+
+.navbar-modern .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-blue);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-modern .nav-link:hover::after,
+.navbar-modern .nav-link.active::after {
+  width: 100%;
+}
+
+/* Dropdowns modernos */
+.dropdown-menu-modern {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  min-width: 200px;
+}
+
+.dropdown-item-modern {
+  padding: 0.75rem 1.5rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dropdown-item-modern:hover {
+  background: var(--light-gray);
+  color: var(--primary-blue);
+  transform: translateX(4px);
+}
+
+/* Utilidades modernas */
+.text-primary { color: var(--primary-blue) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-muted { color: var(--text-muted) !important; }
+
+.bg-primary { background-color: var(--primary-blue) !important; }
+.bg-secondary { background-color: var(--bg-secondary) !important; }
+.bg-light { background-color: var(--light-gray) !important; }
+
+.border-light { border-color: var(--border-light) !important; }
+.shadow-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-md { box-shadow: var(--shadow-md) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+
+/* Animaciones modernas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* Responsive moderno */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .filter-pill {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}

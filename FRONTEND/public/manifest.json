@@ -1,0 +1,21 @@
+{
+  "name": "Bolivia Turismo",
+  "short_name": "Bolivia Turismo",
+  "description": "Descubre los lugares más increíbles de Bolivia",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icono_b.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "tourism", "lifestyle"],
+  "lang": "es",
+  "dir": "ltr"
+}

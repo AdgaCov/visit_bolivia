@@ -1,0 +1,8 @@
+Options -MultiViews
+RewriteEngine On
+
+# Si está en subdirectorio, descomenta y ajusta la siguiente línea:
+# RewriteBase /turismo/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]

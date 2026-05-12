@@ -1,0 +1,68 @@
+{
+  "name": "bolivia-turismo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "type-check": "vue-tsc --noEmit",
+    "deck:business": "node scripts/generate-business-deck.js"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.11.0",
+    "bootstrap": "^5.3.7",
+    "chart.js": "^4.5.1",
+    "core-js": "^3.8.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.4",
+    "leaflet": "^1.9.4",
+    "pinia": "^3.0.3",
+    "pptxgenjs": "4.0.1",
+    "sharp": "0.34.4",
+    "vue": "^3.2.13",
+    "vue-chartjs": "^5.3.3",
+    "vue-leaflet": "^0.1.0",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@babel/preset-typescript": "^7.27.1",
+    "@types/jspdf": "^1.3.3",
+    "@types/leaflet": "^1.9.20",
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.0.6"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
