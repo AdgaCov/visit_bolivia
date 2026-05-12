@@ -1,0 +1,8 @@
+BACKEND/
+FRONTEND/api/vendor/
+FRONTEND/node_modules/
+FRONTEND/dist/
+
+*.log
+*.sql
+*.pdf
