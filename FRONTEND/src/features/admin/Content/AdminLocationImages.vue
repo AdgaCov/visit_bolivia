@@ -227,6 +227,7 @@ const typeOptions = [
   { value: 'Local', label: 'Local' },
   { value: 'Nacional', label: 'Nacional' },
   { value: 'Regional', label: 'Regional' },
+  { value: 'destination', label: 'Destino' },
 ]
 const pagination = reactive({ limit: 20, offset: 0 })
 const showForm = ref(false)

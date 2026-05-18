@@ -245,6 +245,7 @@ const itemTypeOptions = [
   { value: 'service', label: 'Servicio' },
   { value: 'offer', label: 'Oferta' },
   { value: 'room', label: 'Habitación' },
+  { value: 'video', label: 'Video' },
 ]
 const pagination = reactive({ limit: 20, offset: 0 })
 const showForm = ref(false)
@@ -402,7 +403,8 @@ function getTypeLabel(type) {
     dish: 'Plato',
     service: 'Servicio',
     offer: 'Oferta',
-    room: 'Habitación'
+    room: 'Habitación',
+    video: 'Video'
   }
   return map[type] || type
 }
@@ -412,7 +414,8 @@ function getTypeBadgeClass(type) {
     dish: 'bg-danger text-white',
     service: 'bg-info text-white',
     offer: 'bg-warning text-dark',
-    room: 'bg-primary text-white'
+    room: 'bg-primary text-white',
+    video: 'bg-dark text-white'
   }
   return map[type] || 'bg-light text-dark'
 }

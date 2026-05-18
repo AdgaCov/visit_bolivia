@@ -201,6 +201,37 @@ $app->group('/api/places', function (RouteCollectorProxy $group) {
     })->add(JwtMiddleware::class);
 });
 
+$app->group('/api/destinations', function (RouteCollectorProxy $group) {
+    $group->get('', [LocationController::class, 'index'])->add(function($request, $handler) {
+        $request = $request->withQueryParams(array_merge($request->getQueryParams(), ['type' => 'destination']));
+        return $handler->handle($request);
+    });
+    $group->get('/nearby', [LocationController::class, 'getNearby'])->add(function($request, $handler) {
+        $request = $request->withQueryParams(array_merge($request->getQueryParams(), ['type' => 'destination']));
+        return $handler->handle($request);
+    });
+    $group->get('/search', [LocationController::class, 'search'])->add(function($request, $handler) {
+        $request = $request->withQueryParams(array_merge($request->getQueryParams(), ['type' => 'destination']));
+        return $handler->handle($request);
+    });
+    $group->get('/by-user/{user_id}', [LocationController::class, 'getByUser'])->add(function($request, $handler) {
+        $request = $request->withQueryParams(array_merge($request->getQueryParams(), ['type' => 'destination']));
+        return $handler->handle($request);
+    });
+    $group->get('/{id}', [LocationController::class, 'show']);
+    $group->group('', function (RouteCollectorProxy $protected) {
+        $protected->post('', [LocationController::class, 'store'])->add(function($request, $handler) {
+            $body = $request->getParsedBody() ?? [];
+            $body['type'] = 'destination';
+            $request = $request->withParsedBody($body);
+            return $handler->handle($request);
+        });
+        $protected->put('/{id}', [LocationController::class, 'update']);
+        $protected->post('/{id}', [LocationController::class, 'update']);
+        $protected->delete('/{id}', [LocationController::class, 'destroy']);
+    })->add(JwtMiddleware::class);
+});
+
 // Categories (public)
 $app->group('/api/categories', function (RouteCollectorProxy $group) {
     $group->get('', [CategoryController::class, 'index']);

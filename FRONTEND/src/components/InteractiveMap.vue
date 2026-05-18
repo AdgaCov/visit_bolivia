@@ -413,6 +413,10 @@ export default {
         // Ciudades - Edificios múltiples
         city: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z" fill="currentColor"/>
+        </svg>`,
+        // Destinos - Ruta
+        destination: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11c0-3.31-2.69-6-6-6zm0 8.25A2.25 2.25 0 1 1 12 5.75a2.25 2.25 0 0 1 0 4.5zM4 22l4-2 4 2 4-2 4 2v-2.25l-4-2-4 2-4-2-4 2V22z" fill="currentColor"/>
         </svg>`
       }
       
@@ -459,6 +463,13 @@ export default {
           bgColor: '#ffffff',
           borderColor: '#059669',
           size: 22
+        },
+        destination: {
+          svg: iconSVGs.destination,
+          color: '#0f766e',
+          bgColor: '#ffffff',
+          borderColor: '#0f766e',
+          size: 24
         }
       }
       
@@ -1359,7 +1370,8 @@ export default {
 ::deep(.accommodation-marker),
 ::deep(.attraction-marker),
 ::deep(.museum-marker),
-::deep(.event-marker) {
+::deep(.event-marker),
+::deep(.destination-marker) {
   background: transparent;
   border: none;
 }

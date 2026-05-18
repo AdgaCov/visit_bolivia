@@ -20,6 +20,7 @@ class Location extends Model
         'longitude',
         'address',
         'type',
+        'destination_route_type',
         'department_id',
         'capacity',
         'is_recurring'

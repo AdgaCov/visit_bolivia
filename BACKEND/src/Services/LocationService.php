@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class LocationService
 {
-    private const LOCATION_TYPES = ['Internacional', 'Local', 'Nacional', 'Regional'];
+    private const LOCATION_TYPES = ['Internacional', 'Local', 'Nacional', 'Regional', 'destination'];
     private const LEGACY_TYPES = ['city', 'restaurant', 'accommodation', 'event', 'attraction', 'museum'];
 
     private function normalizeTypeFilter(?string $type): ?string

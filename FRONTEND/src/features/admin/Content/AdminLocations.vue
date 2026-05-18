@@ -2,8 +2,8 @@
   <div class="container-fluid p-4">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
       <div>
-        <h1 class="h3 mb-1"><i class="fas fa-map-marker-alt text-primary me-2"></i>Locaciones</h1>
-        <p class="text-muted mb-0">Hoteles, eventos, atractivos, ciudades, museos, restaurantes, etc.</p>
+        <h1 class="h3 mb-1"><i :class="headerIconClass"></i>{{ pageTitle }}</h1>
+        <p class="text-muted mb-0">{{ pageDescription }}</p>
       </div>
       <div class="d-flex align-items-center gap-2">
         <div v-if="!isSuperAdmin && planLimits && planLimits.max_locations !== null" class="text-muted small">
@@ -20,7 +20,7 @@
           :disabled="!canCreateNewLocation"
           :title="!canCreateNewLocation ? 'Has alcanzado el límite de locaciones permitidas en tu plan' : ''"
         >
-          <i class="fas fa-plus me-2"></i>Nueva locación
+          <i class="fas fa-plus me-2"></i>{{ newButtonLabel }}
         </button>
       </div>
     </div>
@@ -29,7 +29,7 @@
       <div class="card-body">
         <div class="row g-3">
           <div class="col-md-6"><input class="form-control" placeholder="Buscar por nombre..." v-model="search"></div>
-          <div class="col-md-3">
+          <div class="col-md-3" v-if="showTypeFilter">
             <select class="form-select" v-model="type">
               <option value="">Todos los tipos</option>
               <option v-for="opt in locationTypeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
@@ -48,8 +48,8 @@
                 <th style="width:80px;">Imagen</th>
                 <th>Nombre</th>
                 <th>Tipo</th>
-                <th>Departamento</th>
-                <th>Dirección</th>
+                <th v-if="!destinationMode">Departamento</th>
+                <th v-if="!destinationMode">Dirección</th>
                 <th>Creado</th>
                 <th class="text-end" style="width:110px;">Acciones</th>
               </tr>
@@ -63,9 +63,18 @@
                   <strong>{{ loc.name }}</strong>
                   <div class="text-muted small" v-if="loc.description">{{ truncate(loc.description, 90) }}</div>
                 </td>
-                <td><span class="badge bg-light text-dark">{{ loc.type }}</span></td>
-                <td>{{ loc.department || '-' }}</td>
-                <td><span class="text-muted small">{{ loc.address || '-' }}</span></td>
+                <td>
+                  <span
+                    v-if="destinationMode"
+                    class="destination-type-badge"
+                    :class="getDestinationTypeClass(loc.destination_route_type)"
+                  >
+                    {{ getDestinationTypeLabel(loc.destination_route_type) }}
+                  </span>
+                  <span v-else class="badge bg-light text-dark">{{ loc.type }}</span>
+                </td>
+                <td v-if="!destinationMode">{{ loc.department || '-' }}</td>
+                <td v-if="!destinationMode"><span class="text-muted small">{{ loc.address || '-' }}</span></td>
                 <td><span class="text-muted small">{{ formatDate(loc.created_at) }}</span></td>
                 <td class="text-end">
                   <div class="btn-group">
@@ -106,7 +115,7 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">{{ form.id ? 'Editar' : 'Nueva' }} locación</h5>
+            <h5 class="modal-title">{{ form.id ? 'Editar' : newModalPrefix }} {{ entityLabel }}</h5>
             <button type="button" class="btn-close" @click="close"></button>
           </div>
           <div class="modal-body">
@@ -117,14 +126,21 @@
                     <label class="form-label">Nombre</label>
                     <input class="form-control" v-model="form.name">
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" v-if="showTypeField">
                     <label class="form-label">Tipo</label>
                     <select class="form-select" v-model="form.type">
                       <option value="">Selecciona un tipo</option>
                       <option v-for="opt in locationTypeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
                     </select>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" v-if="destinationMode">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-select" v-model="form.destination_route_type">
+                      <option value="">Selecciona un tipo de destino</option>
+                      <option v-for="opt in destinationTypeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                    </select>
+                  </div>
+                  <div :class="showTypeField ? 'col-md-6' : 'col-12'">
                     <label class="form-label">Departamento</label>
                     <select class="form-select" v-model="form.department_id">
                       <option value="">Selecciona un departamento</option>
@@ -245,6 +261,18 @@ import { patchLeafletForVueLifecycle } from '@/utils/leafletSafety'
 
 export default {
   name: 'AdminLocations',
+  props: {
+    pageTitle: { type: String, default: 'Locaciones' },
+    pageDescription: { type: String, default: 'Hoteles, eventos, atractivos, ciudades, museos, restaurantes, etc.' },
+    entityLabel: { type: String, default: 'locación' },
+    fixedType: { type: String, default: '' },
+    showTypeFilter: { type: Boolean, default: true },
+    showTypeField: { type: Boolean, default: true },
+    destinationMode: { type: Boolean, default: false },
+    headerIcon: { type: String, default: 'fas fa-map-marker-alt text-primary me-2' },
+    newButtonLabel: { type: String, default: 'Nueva locación' },
+    newModalPrefix: { type: String, default: 'Nueva' }
+  },
   setup() {
     const planLimits = usePlanLimits()
     const authStore = useAuthStore()
@@ -264,6 +292,14 @@ export default {
         { value: 'Local', label: 'Local' },
         { value: 'Nacional', label: 'Nacional' },
         { value: 'Regional', label: 'Regional' },
+      ],
+      destinationTypeOptions: [
+        { value: 'salar_laguna_colorada', label: 'Destino Salar de Uyuni – Laguna Colorada' },
+        { value: 'la_paz_tiwanaku_titicaca', label: 'La Paz – Tiwanaku Lago Titicaca' },
+        { value: 'tarija_vino_cintis', label: 'Tarija Ruta del Vino Los Cintis' },
+        { value: 'santa_cruz_misiones_samaipata', label: 'Santa Cruz Misiones Jesuíticas Samaipata' },
+        { value: 'rurrenabaque_madidi_pampas', label: 'Rurrenabaque Madidi Pampas' },
+        { value: 'cochabamba_potosi', label: 'Cochabamba – Potosí' },
       ],
       items: [],
       pagination: { limit: 50, offset: 0, count: 0 },
@@ -290,6 +326,7 @@ export default {
         name: '',
         description: '',
         type: '',
+        destination_route_type: '',
         address: '',
         department_id: '',
         latitude: '',
@@ -304,8 +341,11 @@ export default {
     filtered() {
       return this.items.filter(l =>
         (!this.search || (l.name || '').toLowerCase().includes(this.search.toLowerCase())) &&
-        (!this.type || l.type === this.type)
+        (!this.type || this.fixedType || l.type === this.type)
       )
+    },
+    headerIconClass() {
+      return this.headerIcon
     },
     canCreateNewLocation() {
       if (this.isSuperAdmin) return true
@@ -319,7 +359,7 @@ export default {
     }
   },
   watch: {
-    type() { this.reload() }
+    type() { if (!this.fixedType) this.reload() }
   },
   async mounted() {
     // Cargar el plan del usuario si solo tiene plan_id
@@ -350,6 +390,7 @@ export default {
       this.pagination.offset = 0
       this.items = []
       this.hasMore = true
+      if (this.fixedType) this.type = this.fixedType
       await this.load(true)
     },
     async openImages(loc) {
@@ -382,11 +423,12 @@ export default {
         // Si es super_admin (role_id = 1), listar todas las locaciones
         // Si no, listar solo las del usuario actual
         let res
+        const requestType = this.fixedType || this.type || undefined
         if (this.isSuperAdmin) {
           res = await adminLocationsService.list({
             limit: this.pagination.limit,
             offset: this.pagination.offset,
-            type: this.type || undefined
+            type: requestType
           })
         } else {
           // Usar endpoint específico para obtener locaciones del usuario
@@ -398,7 +440,7 @@ export default {
           res = await adminLocationsService.listByUser(userId, {
             limit: this.pagination.limit,
             offset: this.pagination.offset,
-            type: this.type || undefined
+            type: requestType
           })
         }
         
@@ -408,6 +450,7 @@ export default {
           name: loc.name,
           description: loc.description || '',
           type: loc.type,
+          destination_route_type: loc.destination_route_type || '',
           department: loc.department?.name || '',
           address: loc.address || '',
           created_at: loc.created_at || '',
@@ -480,6 +523,7 @@ export default {
         name: '',
         description: '',
         type: '',
+        destination_route_type: '',
         address: '',
         department_id: '',
         latitude: '',
@@ -488,6 +532,7 @@ export default {
         coverFile: null,
         coverChanged: false
       }
+      this.form.type = this.fixedType || ''
     },
     async openEdit(loc) {
       this.show = true
@@ -500,7 +545,8 @@ export default {
           id: l.id,
           name: l.name || '',
           description: l.description || '',
-          type: l.type || '',
+          type: this.fixedType || l.type || '',
+          destination_route_type: l.destination_route_type || '',
           address: l.address || '',
           department_id: l.department?.id ? String(l.department.id) : '',
           latitude: l.latitude || '',
@@ -627,7 +673,8 @@ export default {
     },
     async save() {
       if (!this.form.name || !this.form.name.trim()) { alert('El nombre es requerido'); return }
-      if (!this.form.type) { alert('El tipo es requerido'); return }
+      if (!this.fixedType && !this.form.type) { alert('El tipo es requerido'); return }
+      if (this.destinationMode && !this.form.destination_route_type) { alert('El tipo de destino es requerido'); return }
       if (!this.form.department_id) { alert('El departamento es requerido'); return }
       
       const isCreating = this.form.id === 0
@@ -646,7 +693,8 @@ export default {
           const fd = new FormData()
           fd.append('name', this.form.name.trim())
           if (this.form.description) fd.append('description', this.form.description.trim())
-          if (this.form.type) fd.append('type', this.form.type)
+          fd.append('type', this.fixedType || this.form.type)
+          if (this.destinationMode) fd.append('destination_route_type', this.form.destination_route_type)
           if (this.form.address) fd.append('address', this.form.address.trim())
           if (this.form.department_id) fd.append('department_id', String(this.form.department_id))
           if (this.form.latitude) fd.append('latitude', String(this.form.latitude))
@@ -669,11 +717,15 @@ export default {
           const body = {
             name: this.form.name.trim(),
             description: this.form.description ? this.form.description.trim() : '',
-            type: this.form.type || '',
+            type: this.fixedType || this.form.type || '',
             address: this.form.address ? this.form.address.trim() : '',
             department_id: this.form.department_id ? Number(this.form.department_id) : null,
             latitude: this.form.latitude ? Number(this.form.latitude) : null,
             longitude: this.form.longitude ? Number(this.form.longitude) : null,
+          }
+
+          if (this.destinationMode) {
+            body.destination_route_type = this.form.destination_route_type
           }
 
           if (this.form.coverChanged && this.form.cover) {
@@ -744,6 +796,13 @@ export default {
       } catch {
         return '-'
       }
+    },
+    getDestinationTypeLabel(value) {
+      const found = this.destinationTypeOptions.find(opt => opt.value === value)
+      return found ? found.label : 'Sin tipo'
+    },
+    getDestinationTypeClass(value) {
+      return `destination-type-${value || 'empty'}`
     }
   }
 }
@@ -751,4 +810,59 @@ export default {
 
 <style scoped>
 .card { border-radius: 12px; }
+
+.destination-type-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 360px;
+  padding: 0.48rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: normal;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.destination-type-salar_laguna_colorada {
+  color: #9d174d;
+  background: #fce7f3;
+  border: 1px solid #f9a8d4;
+}
+
+.destination-type-la_paz_tiwanaku_titicaca {
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.destination-type-tarija_vino_cintis {
+  color: #ffffff;
+  background: #7f1d1d;
+  border: 1px solid #991b1b;
+}
+
+.destination-type-santa_cruz_misiones_samaipata {
+  color: #7c2d12;
+  background: #ffedd5;
+  border: 1px solid #fdba74;
+}
+
+.destination-type-rurrenabaque_madidi_pampas {
+  color: #ffffff;
+  background: #14532d;
+  border: 1px solid #166534;
+}
+
+.destination-type-cochabamba_potosi {
+  color: #713f12;
+  background: #fef3c7;
+  border: 1px solid #facc15;
+}
+
+.destination-type-empty {
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+}
 </style>

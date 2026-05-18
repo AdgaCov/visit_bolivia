@@ -36,6 +36,17 @@
             <span class="nav-text">Locaciones</span>
           </router-link>
 
+          <router-link 
+            to="/admin/content/destinations" 
+            class="nav-item"
+            :class="{ 'active': $route.path === '/admin/content/destinations' }"
+            @click="closeSidebarOnMobile"
+            v-if="canSeeAll || isEditor"
+          >
+            <i class="fas fa-route nav-icon"></i>
+            <span class="nav-text">Destinos</span>
+          </router-link>
+
 
           <router-link 
             to="/admin/content/articles" 

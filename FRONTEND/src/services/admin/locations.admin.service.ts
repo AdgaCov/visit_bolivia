@@ -18,6 +18,7 @@ export interface AdminLocationItem {
   name: string
   description?: string | null
   type: string
+  destination_route_type?: string | null
   department?: { id: number; name: string; image_url?: string }
   images?: AdminLocationImage[]
   address?: string | null
@@ -155,4 +156,3 @@ export default {
   updateItem,
   deleteItem,
 }
-

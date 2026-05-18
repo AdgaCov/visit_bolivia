@@ -22,6 +22,14 @@
                 <option value="Local">Locales</option>
               </select>
             </div>
+
+            <div class="filter-group">
+              <label class="filter-label">Destinos:</label>
+              <select v-model="selectedDestination" class="filter-select destination-select">
+                <option value="">Todos</option>
+                <option value="destination">Solo destinos</option>
+              </select>
+            </div>
             
             <div class="filter-group">
               <label class="filter-label">Departamento:</label>
@@ -45,11 +53,16 @@
                   type="text"
                   class="filter-select map-search-input"
                   placeholder="Nombre o departamento"
-                  @keyup.enter="applySearch"
                 />
-                <button class="map-search-button" type="button" @click="applySearch">
-                  <i class="fas fa-search"></i>
-                  <span>Buscar</span>
+                <i class="fas fa-search map-search-icon"></i>
+                <button
+                  v-if="searchDraft"
+                  class="map-search-clear"
+                  type="button"
+                  aria-label="Limpiar búsqueda"
+                  @click="clearSearch"
+                >
+                  <i class="fas fa-times"></i>
                 </button>
               </div>
             </div>
@@ -144,7 +157,8 @@
                   <div v-else class="media-fallback">
                     <i class="fas fa-map-marked-alt"></i>
                   </div>
-                  <span v-if="place.tipo === 'city'" class="badge badge-city">Ciudad</span>
+                  <span v-if="place.locType === 'destination'" class="badge badge-destination">Destino</span>
+                  <span v-else-if="place.tipo === 'city'" class="badge badge-city">Ciudad</span>
                   <span v-else class="badge badge-dept">Lugar</span>
                 </div>
                 <div class="card-body">
@@ -310,14 +324,22 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const selectedCategory = ref<string>('')
+    const selectedDestination = ref<string>('')
     const selectedDepartment = ref<string>('')
     const selectedPlace = ref<MapPlace | null>(null)
     const searchDraft = ref<string>('')
-    const searchQuery = ref<string>('')
     const mapWrapperRef = ref<HTMLElement | null>(null)
     const places = ref<MapPlace[]>([])
     const loading = ref<boolean>(false)
     const error = ref<string>('')
+
+    const normalizeText = (value?: string | null) => {
+      return String(value || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .trim()
+    }
 
     const mapLocationsToPlaces = (locations: any[]): MapPlace[] => {
   return locations.filter(Boolean).map((loc: any) => {
@@ -407,6 +429,10 @@ export default {
         filtered = filtered.filter(place => place.locType === selectedCategory.value)
       }
 
+      if (selectedDestination.value) {
+        filtered = filtered.filter(place => place.locType === selectedDestination.value)
+      }
+
       if (selectedDepartment.value) {
         filtered = filtered.filter(place => {
           const deptName = place.department || place.region || ''
@@ -415,12 +441,14 @@ export default {
         })
       }
 
-      // Filtro por búsqueda
-      const q = searchQuery.value.trim().toLowerCase()
+      // Filtro por búsqueda activa
+      const q = normalizeText(searchDraft.value)
       if (q) {
         filtered = filtered.filter(p =>
-          p.nombre.toLowerCase().includes(q) ||
-          (p.region ? p.region.toLowerCase().includes(q) : false)
+          normalizeText(p.nombre).includes(q) ||
+          normalizeText(p.region).includes(q) ||
+          normalizeText(p.department).includes(q) ||
+          normalizeText(p.descripcion).includes(q)
         )
       }
 
@@ -428,7 +456,7 @@ export default {
     })
 
     const displayedPlaces = computed<MapPlace[]>(() => {
-      const hasSearch = !!searchQuery.value.trim()
+      const hasSearch = !!searchDraft.value.trim()
       return filteredPlaces.value.map(place => {
         const detailTo = getDetailTo(place)
         const resolved = detailTo ? router.resolve(detailTo).href : undefined
@@ -440,8 +468,8 @@ export default {
       })
     })
 
-    const applySearch = () => {
-      searchQuery.value = searchDraft.value.trim()
+    const clearSearch = () => {
+      searchDraft.value = ''
     }
 
     const getCategoryColor = (category?: string) => {
@@ -450,6 +478,7 @@ export default {
         Nacional: '#16a34a',
         Regional: '#f97316',
         Local: '#06b6d4',
+        destination: '#0f766e',
         cultura: 'var(--category-cultura)',
         naturaleza: 'var(--category-naturaleza)',
         aventura: 'var(--category-aventura)',
@@ -570,6 +599,7 @@ export default {
       if (place.locType === 'museum') return { name: 'GastronomyDetail', params: { id: place.id } }
       if (place.locType === 'city') return { name: 'GastronomyDetail', params: { id: place.id } }
       if (place.locType === 'attraction') return { name: 'GastronomyDetail', params: { id: place.id } }
+      if (place.locType === 'destination') return { name: 'GastronomyDetail', params: { id: place.id } }
       if (place.tipo === 'place') return { name: 'GastronomyDetail', params: { id: place.id } }
       return null as any
     }
@@ -613,14 +643,14 @@ export default {
 
     return {
       selectedCategory,
+      selectedDestination,
       selectedDepartment,
       selectedPlace,
       places,
       filteredPlaces,
       displayedPlaces,
       searchDraft,
-      searchQuery,
-      applySearch,
+      clearSearch,
       getCategoryColor,
       handlePlaceClick,
       closePlaceInfo,
@@ -712,6 +742,10 @@ export default {
   transition: all 0.2s ease;
 }
 
+.destination-select {
+  min-width: 160px;
+}
+
 .filter-select:focus {
   outline: none;
   border-color: var(--primary-blue);
@@ -724,36 +758,42 @@ export default {
 
 .map-search-control {
   display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
+  align-items: center;
+  position: relative;
 }
 
 .map-search-input {
-  min-width: 230px;
+  min-width: 280px;
+  padding-left: 2.45rem;
+  padding-right: 2.45rem;
 }
 
-.map-search-button {
+.map-search-icon {
+  position: absolute;
+  left: 0.95rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.map-search-clear {
+  position: absolute;
+  right: 0.45rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  min-height: 38px;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--primary-blue);
-  border-radius: 8px;
-  background: var(--primary-blue);
-  color: var(--white);
-  font-size: 0.875rem;
-  font-weight: 600;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
-.map-search-button:hover {
-  background: var(--primary-blue-dark);
-  border-color: var(--primary-blue-dark);
-  transform: translateY(-1px);
+.map-search-clear:hover {
+  background: var(--light-gray);
+  color: var(--text-primary);
 }
 
 .filter-checkbox {
@@ -951,6 +991,7 @@ export default {
 
 .badge-city { background: #198754; }
 .badge-dept { background: #0d6efd; }
+.badge-destination { background: #0f766e; }
 
 .card-body {
   padding: 0.75rem 0 0.25rem;
@@ -1518,8 +1559,7 @@ export default {
   .search-filter-group,
   .filter-select,
   .map-search-control,
-  .map-search-input,
-  .map-search-button {
+  .map-search-input {
     width: 100%;
   }
   

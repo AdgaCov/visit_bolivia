@@ -94,7 +94,7 @@ class LocationItemController
             
             // Validar tipo si se proporciona
             if (isset($data['type'])) {
-                $allowedTypes = ['room', 'dish', 'service', 'offer', 'other'];
+                $allowedTypes = ['room', 'dish', 'service', 'offer', 'video', 'other'];
                 if (!in_array($data['type'], $allowedTypes, true)) {
                     $response->getBody()->write(json_encode([
                         'success' => false,
@@ -154,7 +154,7 @@ class LocationItemController
             
             // Validar tipo si se proporciona
             if (isset($data['type'])) {
-                $allowedTypes = ['room', 'dish', 'service', 'offer', 'other'];
+                $allowedTypes = ['room', 'dish', 'service', 'offer', 'video', 'other'];
                 if (!in_array($data['type'], $allowedTypes, true)) {
                     $response->getBody()->write(json_encode([
                         'success' => false,
@@ -265,7 +265,7 @@ class LocationItemController
             
             // Validar tipo si se proporciona
             if ($type !== null) {
-                $allowedTypes = ['room', 'dish', 'service', 'offer', 'other'];
+                $allowedTypes = ['room', 'dish', 'service', 'offer', 'video', 'other'];
                 if (!in_array($type, $allowedTypes, true)) {
                     $response->getBody()->write(json_encode([
                         'success' => false,

@@ -84,6 +84,7 @@ const routes = [
       { path: 'content/articles', name: 'AdminArticles', component: () => import('@/features/admin/Content/AdminArticles.vue') },
       { path: 'content/article-relations', name: 'AdminArticleRelations', component: () => import('@/features/admin/Content/AdminArticleRelations.vue') },
       { path: 'content/locations', name: 'AdminLocations', component: () => import('@/features/admin/Content/AdminLocations.vue') },
+      { path: 'content/destinations', name: 'AdminDestinations', component: () => import('@/features/admin/Content/AdminDestinations.vue') },
       { path: 'content/location-images', name: 'AdminLocationImages', component: () => import('@/features/admin/Content/AdminLocationImages.vue') },
        { path: 'content/location-items', name: 'AdminLocationItems', component: () => import('@/features/admin/Content/AdminLocationItems.vue') },
       { path: 'content/location-subcategories', name: 'AdminLocationSubcategories', component: () => import('@/features/admin/Content/AdminLocationSubcategories.vue') },
